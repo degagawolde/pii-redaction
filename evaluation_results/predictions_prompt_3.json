@@ -1,18 +1,233 @@
 {
     "Test_A": {
-        "error": "[Errno 8] nodename nor servname provided, or not known",
-        "status": "error"
+        "Name": [
+            "Orval O'Riocht",
+            "Liam O'Riocht",
+            "Orval O'Riocht",
+            "Liam O'Riocht",
+            "Orval O'Riocht",
+            "Liam O'Riocht",
+            "Michael Murphy",
+            "Sean O'Malley"
+        ],
+        "Company_Name": [
+            "The Right Brothers",
+            "The Right Brothers",
+            "Bank of Ireland"
+        ],
+        "Address": [
+            "15 Grafton Street, Dublin 2, Ireland",
+            "42 Merrion Square, Dublin 2, Ireland",
+            "Unit 7, Dublin Industrial Estate, Glasnevin, Dublin 11, Ireland",
+            "28 Fitzwilliam Square, Dublin 2, Ireland",
+            "17 Stephen's Green, Dublin 2, Ireland"
+        ],
+        "Date_of_Birth": [],
+        "Email_Address": [
+            "orval.oriocht@rightbrothers.ie",
+            "liam.oriocht@rightbrothers.ie",
+            "info@rightbrothers.ie"
+        ],
+        "Phone_Number": [
+            "+353-1-485-2739",
+            "+353-1-673-4821",
+            "+353-1-842-5731",
+            "+353-1-291-8463",
+            "+353-1-537-9284"
+        ],
+        "PPS_Number": [
+            "8472639T",
+            "6159287K"
+        ],
+        "License_Number": [
+            "IE8472639T",
+            "8472639",
+            "AML-IE-8472639",
+            "6159287",
+            "CA-IE-6159287"
+        ],
+        "Passport_Number": [
+            "P8472639",
+            "P6159287"
+        ],
+        "Bank_Information": [
+            "IE64 BOFI 9073 2847 6391 52",
+            "90-73-28"
+        ],
+        "ID_Number": [],
+        "Reference_Number": [
+            "8472639T-6159287K",
+            "RC-RB-2025-847263",
+            "ER-8472639-6159287"
+        ]
     },
     "Test_C": {
-        "error": "[Errno 8] nodename nor servname provided, or not known",
-        "status": "error"
+        "Name": [
+            "Miran Shingali",
+            "Grand Duke of Luxembourg",
+            "Gianmarco Rossi",
+            "Agatha Johansson",
+            "Jakub Dzukowicz",
+            "Ms. Elena Sharpova",
+            "Mr. Miran Shingali",
+            "Ms. Fawziya Shingali",
+            "Taalo",
+            "Henri",
+            "His Royal Highness Henri",
+            "Mr. Shingali",
+            "A. Calot Escobar"
+        ],
+        "Company_Name": [
+            "COURT OF JUSTICE OF THE EUROPEAN UNION",
+            "Government of Luxembourg",
+            "Palace of the Grand Dukes",
+            "Luxembourg government",
+            "Registry of the Court of Justice"
+        ],
+        "Address": [
+            "Hauptstraße 45, 54290 Trier, Germany",
+            "12 Rue de la Liberté, L-1930 Luxembourg City",
+            "17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
+            "Rue du Fort Niedergrünewald, L-2925 Luxembourg"
+        ],
+        "Date_of_Birth": [
+            "23 August 1987",
+            "15 March 1991"
+        ],
+        "Email_Address": [
+            "registry@curia.europa.eu"
+        ],
+        "Phone_Number": [
+            "+352 43 03 1"
+        ],
+        "PPS_Number": [],
+        "License_Number": [
+            "DE-2023-RP-445789",
+            "IRQ-2013-MC-78945"
+        ],
+        "Passport_Number": [],
+        "Bank_Information": [],
+        "ID_Number": [
+            "19870823-1234-567",
+            "19910315-2345-678"
+        ],
+        "Reference_Number": [
+            "C-247/25",
+            "ECLI:EU:C:2025:542",
+            "2025/C-247",
+            "LU-2014-REF-08947",
+            "MS-2025-REV-001",
+            "MFA-2025-0398",
+            "GD-2025-0156",
+            "CC-2025-0089"
+        ]
     },
     "Test_D": {
-        "error": "[Errno 8] nodename nor servname provided, or not known",
-        "status": "error"
+        "Name": [
+            "Orval O'Riocht",
+            "Liam O'Riocht",
+            "Michael Murphy",
+            "Sean O'Malley"
+        ],
+        "Company_Name": [
+            "The Right Brothers",
+            "The Right Brothers"
+        ],
+        "Address": [
+            "15 Grafton Street, Dublin 2, Ireland",
+            "42 Merrion Square, Dublin 2, Ireland",
+            "Unit 7, Dublin Industrial Estate, Glasnevin, Dublin 11, Ireland",
+            "28 Fitzwilliam Square, Dublin 2, Ireland",
+            "17 Stephen's Green, Dublin 2, Ireland"
+        ],
+        "Date_of_Birth": [],
+        "Email_Address": [
+            "orval.oriocht@rightbrothers.ie",
+            "liam.oriocht@rightbrothers.ie",
+            "info@rightbrothers.ie"
+        ],
+        "Phone_Number": [
+            "+353-1-485-2739",
+            "+353-1-673-4821",
+            "+353-1-842-5731",
+            "+353-1-291-8463",
+            "+353-1-537-9284"
+        ],
+        "PPS_Number": [
+            "8472639T",
+            "6159287K"
+        ],
+        "License_Number": [
+            "IE8472639T"
+        ],
+        "Passport_Number": [
+            "P8472639",
+            "P6159287"
+        ],
+        "Bank_Information": [],
+        "ID_Number": [],
+        "Reference_Number": [
+            "8472639T-6159287K",
+            "RC-RB-2025-847263",
+            "ER-8472639-6159287"
+        ]
     },
     "Test_F": {
-        "error": "[Errno 8] nodename nor servname provided, or not known",
-        "status": "error"
+        "Name": [
+            "Miran Shingali",
+            "Grand Duke of Luxembourg",
+            "Government of Luxembourg",
+            "Gianmarco Rossi",
+            "Agatha Johansson",
+            "Jakub Dzukowicz",
+            "Elena Sharpova",
+            "Mr. Miran Shingali",
+            "Ms. Fawziya Shingali",
+            "Fawziya Shingali",
+            "Taalo",
+            "Henri, Grand Duke of Luxembourg",
+            "A. Calot Escobar"
+        ],
+        "Company_Name": [
+            "COURT OF JUSTICE OF THE EUROPEAN UNION",
+            "Registry of the Court of Justice"
+        ],
+        "Address": [
+            "Hauptstraße 45, 54290 Trier, Germany",
+            "12 Rue de la Liberté, L-1930 Luxembourg City",
+            "Palace of the Grand Dukes, 17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
+            "Rue du Fort Niedergrünewald, L-2925 Luxembourg"
+        ],
+        "Date_of_Birth": [
+            "23 August 1987",
+            "15 March 1991"
+        ],
+        "Email_Address": [
+            "registry@curia.europa.eu"
+        ],
+        "Phone_Number": [
+            "+352 43 03 1"
+        ],
+        "PPS_Number": [],
+        "License_Number": [
+            "DE-2023-RP-445789"
+        ],
+        "Passport_Number": [],
+        "Bank_Information": [],
+        "ID_Number": [
+            "19870823-1234-567",
+            "19910315-2345-678"
+        ],
+        "Reference_Number": [
+            "C-247/25",
+            "ECLI:EU:C:2025:542",
+            "2025/C-247",
+            "LU-2014-REF-08947",
+            "MS-2025-REV-001",
+            "IRQ-2013-MC-78945",
+            "MFA-2025-0398",
+            "GD-2025-0156",
+            "CC-2025-0089"
+        ]
     }
 }

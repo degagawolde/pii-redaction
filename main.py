@@ -36,7 +36,7 @@ class PIIEvaluationRunner:
         self.results_dir = Path("evaluation_results")
         self.results_dir.mkdir(exist_ok=True)
 
-    def process_document(
+    def detect_pii(
         self,
         document_text: str,
         document_name: str,
@@ -68,7 +68,7 @@ class PIIEvaluationRunner:
             )
 
             validated_data = validate_output(response.text)
-            return {"data": validated_data, "status": "success"}
+            return validated_data
 
         except Exception as e:
             print(
@@ -105,7 +105,7 @@ class PIIEvaluationRunner:
                 f"✅ Prompt {prompt_id} - Document {i+1}/{documents_df.shape[0]} - {document_name}"
             )
 
-            result = self.process_document(
+            result = self.detect_pii(
                 document_text=document_text,
                 document_name=document_name,
                 prompt_content=prompt_content,
@@ -123,23 +123,37 @@ class PIIEvaluationRunner:
             predictions, ground_truth, prompt_id, prompt_content
         )
 
+
     def _save_predictions(self, predictions: Dict[str, Any], prompt_id: int) -> bool:
-        """Save predictions to JSON file.
-
-        Args:
-            predictions: Predictions dictionary to save
-            prompt_id: ID of the prompt
-
-        Returns:
-            True if successful, False otherwise
         """
+        Save predictions to JSON file with clean formatting.
+        Automatically converts JSON strings into real dictionaries.
+        """
+
+        # Fix: convert stringified JSON to proper dicts
+        cleaned = {}
+
+        for key, value in predictions.items():
+            if isinstance(value, str):
+                # Value *is* raw JSON in string form
+                try:
+                    cleaned[key] = json.loads(value)
+                except json.JSONDecodeError:
+                    print(
+                        f"⚠️ Failed to decode JSON for key: {key}. Keeping original string."
+                    )
+                    cleaned[key] = value
+            else:
+                cleaned[key] = value
+
         output_file = self.results_dir / f"predictions_prompt_{prompt_id}.json"
 
         try:
             with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(predictions, f, indent=4, ensure_ascii=False)
+                json.dump(cleaned, f, indent=4, ensure_ascii=False)
             print(f"✅ Successfully saved predictions for prompt {prompt_id}")
             return True
+
         except Exception as e:
             print(f"❌ Error saving predictions for prompt {prompt_id}: {e}")
             return False
@@ -165,9 +179,8 @@ class PIIEvaluationRunner:
         try:
             # Filter out successful predictions for metric calculation
             successful_predictions = {
-                doc_name: result["data"]
+                doc_name: result
                 for doc_name, result in predictions.items()
-                if result["status"] == "success"
             }
 
             metrics = calculate_pii_metrics(
