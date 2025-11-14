@@ -6,7 +6,7 @@ import json
 def read_input_document(file_path):
     try:
         # Read the file into a DataFrame
-        df = pd.read_excel(file_path, names=["name", "content"])
+        df = pd.read_excel(file_path, names=["name", "content"], header=None)
         print("✅ Successfully connected to and read the CSV file.")
         print("\n--- First 5 Rows ---")
         print(df.head())

@@ -1,13 +1,18 @@
-from dotenv import load_dotenv
-import json
-import os
-from datetime import datetime
+"""PII Extraction Evaluation Script
 
-load_dotenv()
+This script evaluates multiple prompts for PII extraction using Gemini API
+and calculates performance metrics for comparison.
+"""
+
+import json
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Any, Optional
+
+from dotenv import load_dotenv
 import google.genai as genai
 from google.genai import types
 
-client = genai.Client()
 from scripts.evaluation import calculate_pii_metrics, print_metrics_report
 from scripts.read_file import read_input_document
 from scripts.validator import validate_output
@@ -15,41 +20,46 @@ from scripts.schema import PIIExtractionOutput
 from scripts.prompts import get_prompt
 from scripts.preprocess import clean_document_for_llm
 
-# 1. read input document
-input_file_path = "evaluation_data/documents.xlsx"
-raw_text_df = read_input_document(file_path=input_file_path)
 
-# Define which prompts to test (modify this list as needed)
-prompt_ids = [0, 1, 2, 3, 4]  # Example prompt IDs - adjust based on your available prompts
+class PIIEvaluationRunner:
+    """Main class to run PII extraction evaluation across multiple prompts."""
 
-# Create directory for results if it doesn't exist
-results_dir = "evaluation_results"
-os.makedirs(results_dir, exist_ok=True)
+    def __init__(self, model_name: str = "gemini-2.5-flash"):
+        """Initialize the evaluation runner.
 
-all_results = {}
+        Args:
+            model_name: Name of the Gemini model to use
+        """
+        load_dotenv()
+        self.client = genai.Client()
+        self.model_name = model_name
+        self.results_dir = Path("evaluation_results")
+        self.results_dir.mkdir(exist_ok=True)
 
-for prompt_id in prompt_ids:
-    print(f"\n{'='*60}")
-    print(f"🔄 Processing with Prompt ID: {prompt_id}")
-    print(f"{'='*60}")
+    def process_document(
+        self,
+        document_text: str,
+        document_name: str,
+        prompt_content: str,
+        prompt_id: int,
+    ) -> Dict[str, Any]:
+        """Process a single document with the given prompt.
 
-    predictions = {}
-    prompt_content = get_prompt(prompt_id)
+        Args:
+            document_text: Raw document text to process
+            document_name: Identifier for the document
+            prompt_content: System prompt content
+            prompt_id: ID of the prompt being tested
 
-    for i in range(raw_text_df.shape[0]):
-        clean_text = clean_document_for_llm(
-            raw_document_text=raw_text_df["content"].iloc[i]
-        )
-        print(
-            f"✅ Prompt {prompt_id} - Document {i+1}/{raw_text_df.shape[0]} - text length: {len(clean_text)}"
-        )
-
-        contents = f"""Input Text: {clean_text}"""
-
+        Returns:
+            Dictionary containing processed results or error information
+        """
         try:
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=contents,
+            clean_text = clean_document_for_llm(document_text)
+
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=f"Input Text: {clean_text}",
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
                     system_instruction=prompt_content,
@@ -57,109 +67,283 @@ for prompt_id in prompt_ids:
                 ),
             )
 
-            print(f"✅ Prompt {prompt_id} - Raw API Response for document {i+1}")
-
             validated_data = validate_output(response.text)
-            document_name = raw_text_df["name"].iloc[i]
-            predictions[document_name] = validated_data
+            return {"data": validated_data, "status": "success"}
 
         except Exception as e:
-            print(f"❌ Error processing document {i+1} with prompt {prompt_id}: {e}")
-            document_name = raw_text_df["name"].iloc[i]
-            predictions[document_name] = {"error": str(e)}
+            print(
+                f"❌ Error processing document '{document_name}' with prompt {prompt_id}: {e}"
+            )
+            return {"error": str(e), "status": "error"}
 
-    # Save predictions for this prompt
-    prompt_output_file = f"{results_dir}/predictions_prompt_{prompt_id}.json"
+    def run_prompt_evaluation(
+        self, prompt_id: int, documents_df, ground_truth: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
+        """Run evaluation for a single prompt across all documents.
+
+        Args:
+            prompt_id: ID of the prompt to evaluate
+            documents_df: DataFrame containing documents
+            ground_truth: Ground truth data for evaluation
+
+        Returns:
+            Dictionary containing evaluation results or None if failed
+        """
+        print(f"\n{'='*60}")
+        print(f"🔄 Processing with Prompt ID: {prompt_id}")
+        print(f"{'='*60}")
+
+        predictions = {}
+        prompt_content = get_prompt(prompt_id)
+
+        # Process all documents
+        for i in range(documents_df.shape[0]):
+            document_name = documents_df["name"].iloc[i]
+            document_text = documents_df["content"].iloc[i]
+
+            print(
+                f"✅ Prompt {prompt_id} - Document {i+1}/{documents_df.shape[0]} - {document_name}"
+            )
+
+            result = self.process_document(
+                document_text=document_text,
+                document_name=document_name,
+                prompt_content=prompt_content,
+                prompt_id=prompt_id,
+            )
+
+            predictions[document_name] = result
+
+        # Save predictions
+        if not self._save_predictions(predictions, prompt_id):
+            return None
+
+        # Calculate and save metrics
+        return self._calculate_and_save_metrics(
+            predictions, ground_truth, prompt_id, prompt_content
+        )
+
+    def _save_predictions(self, predictions: Dict[str, Any], prompt_id: int) -> bool:
+        """Save predictions to JSON file.
+
+        Args:
+            predictions: Predictions dictionary to save
+            prompt_id: ID of the prompt
+
+        Returns:
+            True if successful, False otherwise
+        """
+        output_file = self.results_dir / f"predictions_prompt_{prompt_id}.json"
+
+        try:
+            with open(output_file, "w", encoding="utf-8") as f:
+                json.dump(predictions, f, indent=4, ensure_ascii=False)
+            print(f"✅ Successfully saved predictions for prompt {prompt_id}")
+            return True
+        except Exception as e:
+            print(f"❌ Error saving predictions for prompt {prompt_id}: {e}")
+            return False
+
+    def _calculate_and_save_metrics(
+        self,
+        predictions: Dict[str, Any],
+        ground_truth: Dict[str, Any],
+        prompt_id: int,
+        prompt_content: str,
+    ) -> Optional[Dict[str, Any]]:
+        """Calculate metrics and save results.
+
+        Args:
+            predictions: Model predictions
+            ground_truth: Ground truth data
+            prompt_id: ID of the prompt
+            prompt_content: Content of the prompt
+
+        Returns:
+            Dictionary containing metrics and results
+        """
+        try:
+            # Filter out successful predictions for metric calculation
+            successful_predictions = {
+                doc_name: result["data"]
+                for doc_name, result in predictions.items()
+                if result["status"] == "success"
+            }
+
+            metrics = calculate_pii_metrics(
+                predictions=successful_predictions, ground_truth=ground_truth
+            )
+
+            # Prepare metrics data
+            metrics_data = {
+                "prompt_id": prompt_id,
+                "prompt_content": prompt_content,
+                "metrics": metrics,
+                "total_documents": len(predictions),
+                "successful_documents": len(successful_predictions),
+                "failed_documents": len(predictions) - len(successful_predictions),
+                "evaluation_timestamp": datetime.now().isoformat(),
+            }
+
+            # Save metrics
+            metrics_file = self.results_dir / f"metrics_prompt_{prompt_id}.json"
+            with open(metrics_file, "w", encoding="utf-8") as f:
+                json.dump(metrics_data, f, indent=4, ensure_ascii=False)
+
+            print(f"✅ Successfully saved metrics for prompt {prompt_id}")
+
+            # Print report
+            print(f"\n📊 METRICS REPORT - Prompt {prompt_id}")
+            print(f"{'-'*40}")
+            print_metrics_report(metrics)
+
+            return {
+                "predictions": predictions,
+                "metrics": metrics,
+                "prompt_content": prompt_content,
+                "metrics_data": metrics_data,
+            }
+
+        except Exception as e:
+            print(f"❌ Error calculating metrics for prompt {prompt_id}: {e}")
+            return None
+
+    def save_comprehensive_comparison(
+        self,
+        all_results: Dict[int, Dict[str, Any]],
+        prompt_ids: List[int],
+        documents_df,
+    ) -> bool:
+        """Save comprehensive comparison of all prompts.
+
+        Args:
+            all_results: Dictionary containing results for all prompts
+            prompt_ids: List of prompt IDs that were tested
+            documents_df: DataFrame containing processed documents
+
+        Returns:
+            True if successful, False otherwise
+        """
+        comparison_file = self.results_dir / "all_prompts_comparison.json"
+
+        try:
+            comparison_data = {
+                "metadata": {
+                    "generated_at": datetime.now().isoformat(),
+                    "total_prompts_tested": len(prompt_ids),
+                    "model_used": self.model_name,
+                    "total_documents": documents_df.shape[0],
+                },
+                "prompts_comparison": {},
+            }
+
+            for prompt_id, results in all_results.items():
+                comparison_data["prompts_comparison"][prompt_id] = {
+                    "prompt_preview": (
+                        results["prompt_content"][:100] + "..."
+                        if len(results["prompt_content"]) > 100
+                        else results["prompt_content"]
+                    ),
+                    "metrics": results["metrics"],
+                    "total_documents_processed": len(results["predictions"]),
+                }
+
+            with open(comparison_file, "w", encoding="utf-8") as f:
+                json.dump(comparison_data, f, indent=4, ensure_ascii=False)
+
+            print(f"✅ Successfully saved comprehensive comparison")
+            return True
+
+        except Exception as e:
+            print(f"❌ Error saving comparison file: {e}")
+            return False
+
+    def print_final_summary(
+        self, prompt_ids: List[int], all_results: Dict[int, Dict[str, Any]]
+    ):
+        """Print final summary of the evaluation.
+
+        Args:
+            prompt_ids: List of prompt IDs that were tested
+            all_results: Dictionary containing results for all prompts
+        """
+        print(f"\n{'='*60}")
+        print(f"🎯 EVALUATION COMPLETED")
+        print(f"{'='*60}")
+        print(f"Total prompts tested: {len(prompt_ids)}")
+        print(f"Successful evaluations: {len(all_results)}")
+        print(f"Results saved in: {self.results_dir}/")
+        print(f"Files generated:")
+        for prompt_id in prompt_ids:
+            print(f"  - predictions_prompt_{prompt_id}.json")
+            print(f"  - metrics_prompt_{prompt_id}.json")
+        print(f"  - all_prompts_comparison.json")
+        print(f"{'='*60}")
+
+
+def load_ground_truth(ground_truth_path: str) -> Dict[str, Any]:
+    """Load ground truth data from JSON file.
+
+    Args:
+        ground_truth_path: Path to ground truth JSON file
+
+    Returns:
+        Dictionary containing ground truth data
+
+    Raises:
+        FileNotFoundError: If ground truth file doesn't exist
+        JSONDecodeError: If ground truth file is not valid JSON
+    """
+    ground_truth_path = Path(ground_truth_path)
+    if not ground_truth_path.exists():
+        raise FileNotFoundError(f"Ground truth file not found: {ground_truth_path}")
+
+    with open(ground_truth_path, "r") as file:
+        return json.load(file)
+
+
+def main():
+    """Main execution function."""
+    # Configuration
+    INPUT_FILE_PATH = "evaluation_data/documents.xlsx"
+    GROUND_TRUTH_FILE = "evaluation_data/parsed_data.json"
+    PROMPT_IDS = [2, 3]  # Adjust based on available prompts
+
     try:
-        with open(prompt_output_file, "w", encoding="utf-8") as f:
-            json.dump(predictions, f, indent=4, ensure_ascii=False)
-        print(
-            f"✅ Successfully saved predictions for prompt {prompt_id} to: {prompt_output_file}"
-        )
-    except Exception as e:
-        print(f"❌ Error saving predictions for prompt {prompt_id}: {e}")
+        # Initialize evaluation runner
+        evaluator = PIIEvaluationRunner()
 
-    # Calculate metrics for this prompt
-    ground_truth_file = "evaluation_data/parsed_data.json"
-    try:
-        with open(ground_truth_file, "r") as file:
-            ground_truth = json.load(file)
+        # Load data
+        print("📂 Loading input documents...")
+        raw_text_df = read_input_document(file_path=INPUT_FILE_PATH)
 
-        metrics = calculate_pii_metrics(
-            predictions=predictions, ground_truth=ground_truth
-        )
+        print("📂 Loading ground truth data...")
+        ground_truth = load_ground_truth(GROUND_TRUTH_FILE)
 
-        # Save metrics for this prompt
-        metrics_file = f"{results_dir}/metrics_prompt_{prompt_id}.json"
-        metrics_data = {
-            "prompt_id": prompt_id,
-            "prompt_content": prompt_content,
-            "metrics": metrics,
-            "total_documents": len(predictions),
-            "evaluation_timestamp": datetime.now().isoformat(),
-        }
+        # Run evaluation for each prompt
+        all_results = {}
 
-        with open(metrics_file, "w", encoding="utf-8") as f:
-            json.dump(metrics_data, f, indent=4, ensure_ascii=False)
-        print(
-            f"✅ Successfully saved metrics for prompt {prompt_id} to: {metrics_file}"
-        )
+        for prompt_id in PROMPT_IDS:
+            results = evaluator.run_prompt_evaluation(
+                prompt_id=prompt_id, documents_df=raw_text_df, ground_truth=ground_truth
+            )
 
-        # Print report for this prompt
-        print(f"\n📊 METRICS REPORT - Prompt {prompt_id}")
-        print(f"{'-'*40}")
-        print_metrics_report(metrics)
+            if results:
+                all_results[prompt_id] = results
 
-        # Store in all results
-        all_results[prompt_id] = {
-            "predictions": predictions,
-            "metrics": metrics,
-            "prompt_content": prompt_content,
-        }
+        # Save comprehensive comparison
+        if all_results:
+            evaluator.save_comprehensive_comparison(
+                all_results=all_results, prompt_ids=PROMPT_IDS, documents_df=raw_text_df
+            )
+
+        # Print final summary
+        evaluator.print_final_summary(prompt_ids=PROMPT_IDS, all_results=all_results)
 
     except Exception as e:
-        print(f"❌ Error calculating metrics for prompt {prompt_id}: {e}")
+        print(f"💥 Critical error in main execution: {e}")
+        raise
 
-# Save comprehensive comparison
-comparison_file = f"{results_dir}/all_prompts_comparison.json"
-try:
-    comparison_data = {
-        "metadata": {
-            "generated_at": datetime.now().isoformat(),
-            "total_prompts_tested": len(prompt_ids),
-            "model_used": "gemini-2.5-flash",
-            "total_documents": raw_text_df.shape[0],
-        },
-        "prompts_comparison": {},
-    }
 
-    for prompt_id in all_results:
-        comparison_data["prompts_comparison"][prompt_id] = {
-            "prompt_preview": (
-                all_results[prompt_id]["prompt_content"][:100] + "..."
-                if len(all_results[prompt_id]["prompt_content"]) > 100
-                else all_results[prompt_id]["prompt_content"]
-            ),
-            "metrics": all_results[prompt_id]["metrics"],
-            "total_documents_processed": len(all_results[prompt_id]["predictions"]),
-        }
-
-    with open(comparison_file, "w", encoding="utf-8") as f:
-        json.dump(comparison_data, f, indent=4, ensure_ascii=False)
-    print(f"\n✅ Successfully saved comprehensive comparison to: {comparison_file}")
-
-except Exception as e:
-    print(f"❌ Error saving comparison file: {e}")
-
-# Print final summary
-print(f"\n{'='*60}")
-print(f"🎯 EVALUATION COMPLETED")
-print(f"{'='*60}")
-print(f"Total prompts tested: {len(prompt_ids)}")
-print(f"Results saved in: {results_dir}/")
-print(f"Files generated:")
-for prompt_id in prompt_ids:
-    print(f"  - predictions_prompt_{prompt_id}.json")
-    print(f"  - metrics_prompt_{prompt_id}.json")
-print(f"  - all_prompts_comparison.json")
-print(f"{'='*60}")
+if __name__ == "__main__":
+    main()

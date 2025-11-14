@@ -1,1 +1,18 @@
-{"Test_C": {"error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}"}, "Test_D": {"error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}"}, "Test_F": {"error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}"}}
+{
+    "Test_A": {
+        "error": "[Errno 8] nodename nor servname provided, or not known",
+        "status": "error"
+    },
+    "Test_C": {
+        "error": "[Errno 8] nodename nor servname provided, or not known",
+        "status": "error"
+    },
+    "Test_D": {
+        "error": "[Errno 8] nodename nor servname provided, or not known",
+        "status": "error"
+    },
+    "Test_F": {
+        "error": "[Errno 8] nodename nor servname provided, or not known",
+        "status": "error"
+    }
+}
