@@ -1,0 +1,392 @@
+{
+    "prompt_id": 0,
+    "prompt_content": "\nYou are an expert PII identification tool. Your task is to analyze the provided \ntext and extract all instances of Personally Identifiable Information (PII).\n\nPII Categories to identify:\n1. HUMAN_NAME (including partial names, nicknames)\n2. COMPANY_NAME\n3. DATE\n4. ADDRESS (street, city, postal codes)\n5. EMAIL_ADDRESS\n6. PHONE_NUMBER\n\nOutput must be a single JSON object. The keys must be the PII categories, and \nthe value must be a list of all detected instances. If a category is not found, \nits list should be empty.\n",
+    "metrics": {
+        "per_test": {
+            "Test_C": {
+                "Address": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 5,
+                    "support": 5
+                },
+                "Date_of_Birth": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Email_Address": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 1,
+                    "support": 1
+                },
+                "ID_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Name": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 10,
+                    "support": 10
+                },
+                "Phone_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 1,
+                    "support": 1
+                },
+                "Reference_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 10,
+                    "support": 10
+                },
+                "error": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 1,
+                    "fn": 0,
+                    "support": 0
+                }
+            },
+            "Test_D": {
+                "Address": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 5,
+                    "support": 5
+                },
+                "Bank_Information": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 1,
+                    "support": 1
+                },
+                "Company_Name": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Email_Address": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 3,
+                    "support": 3
+                },
+                "License_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Name": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 4,
+                    "support": 4
+                },
+                "PPS_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Passport_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Phone_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 5,
+                    "support": 5
+                },
+                "Reference_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 5,
+                    "support": 5
+                },
+                "error": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 1,
+                    "fn": 0,
+                    "support": 0
+                }
+            },
+            "Test_F": {
+                "Address": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 5,
+                    "support": 5
+                },
+                "Date_of_Birth": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Email_Address": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 1,
+                    "support": 1
+                },
+                "ID_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 2,
+                    "support": 2
+                },
+                "Name": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 9,
+                    "support": 9
+                },
+                "Phone_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 1,
+                    "support": 1
+                },
+                "Reference_Number": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 0,
+                    "fn": 10,
+                    "support": 10
+                },
+                "error": {
+                    "precision": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "tp": 0,
+                    "fp": 1,
+                    "fn": 0,
+                    "support": 0
+                }
+            }
+        },
+        "overall_per_category": {
+            "Address": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 15,
+                "support": 15
+            },
+            "Date_of_Birth": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "support": 4
+            },
+            "Email_Address": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 5,
+                "support": 5
+            },
+            "ID_Number": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "support": 4
+            },
+            "Name": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 23,
+                "support": 23
+            },
+            "Phone_Number": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "support": 7
+            },
+            "Reference_Number": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 25,
+                "support": 25
+            },
+            "error": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 3,
+                "fn": 0,
+                "support": 0
+            },
+            "Bank_Information": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "support": 1
+            },
+            "Company_Name": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "support": 2
+            },
+            "License_Number": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "support": 2
+            },
+            "PPS_Number": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "support": 2
+            },
+            "Passport_Number": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "support": 2
+            }
+        },
+        "summary": {
+            "micro": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0
+            },
+            "macro": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0
+            },
+            "total_tests": 3,
+            "total_categories": 13
+        }
+    },
+    "total_documents": 3,
+    "evaluation_timestamp": "2025-11-14T19:14:54.778609"
+}
