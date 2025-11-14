@@ -1,56 +1,222 @@
-# evaluation.py
-from collections import defaultdict
 import json
+from typing import Dict, List, Tuple
+
+# Type alias for clarity
+PII_DATA = Dict[str, Dict[str, List[str]]]
+
+from typing import Dict, List, Any, Set
+from collections import defaultdict
+import numpy as np
 
 
-class PIIEvaluator:
-    def __init__(self, gold_labels_path):
-        # Load and parse the gold standard annotations (assuming JSON format)
-        with open(gold_labels_path, "r") as f:
-            self.gold_labels = json.load(f)
+def calculate_pii_metrics(
+    predictions: Dict, ground_truth: Dict, test_name: str = None
+) -> Dict[str, Any]:
+    """
+    Calculate comprehensive PII extraction metrics with per-category and aggregate reporting.
+    """
 
-    def compare_and_score(self, document_id: str, predicted_entities: list[dict]):
-        """Compares predicted PII entities against gold labels for a single document."""
+    def flatten_entities(data: Dict, test_filter: str = None) -> Dict[str, List[str]]:
+        flattened = defaultdict(list)
+        for test_key, test_data in data.items():
+            if test_filter and test_key != test_filter:
+                continue
+            for category, entities in test_data.items():
+                flattened[category].extend(
+                    entities if isinstance(entities, list) else [entities]
+                )
+        return dict(flattened)
 
-        gold_entities = self.gold_labels.get(document_id, [])
+    def calculate_category_metrics(
+        pred_entities: List[str], true_entities: List[str]
+    ) -> Dict[str, float]:
+        pred_set, true_set = set(pred_entities), set(true_entities)
 
-        # Convert entities to a unique, comparable format (e.g., set of tuples)
-        gold_set = {(e["start"], e["end"], e["type"]) for e in gold_entities}
-        pred_set = {(e["start"], e["end"], e["type"]) for e in predicted_entities}
+        if not pred_set and not true_set:
+            return {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": 0,
+                "support": 0,
+            }
+        if not pred_set:
+            return {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": 0,
+                "fn": len(true_set),
+                "support": len(true_set),
+            }
+        if not true_set:
+            return {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "tp": 0,
+                "fp": len(pred_set),
+                "fn": 0,
+                "support": 0,
+            }
 
-        # Calculation of True Positives (TP), False Positives (FP), False Negatives (FN)
-        TP = len(gold_set.intersection(pred_set))
-        FP = len(pred_set.difference(gold_set))
-        FN = len(gold_set.difference(pred_set))
+        TP = len(pred_set & true_set)
+        FP = len(pred_set - true_set)
+        FN = len(true_set - pred_set)
 
-        return TP, FP, FN
-
-    def calculate_metrics(self, TP_total: int, FP_total: int, FN_total: int) -> dict:
-        """Calculates Precision, Recall, and F1-Score."""
-
-        # Precision (P)
-        if TP_total + FP_total == 0:
-            precision = 1.0  # Or 0.0, depending on convention for no predictions
-        else:
-            precision = TP_total / (TP_total + FP_total)
-
-        # Recall (R)
-        if TP_total + FN_total == 0:
-            recall = 1.0
-        else:
-            recall = TP_total / (TP_total + FN_total)
-
-        # F1-Score
-        if precision + recall == 0:
-            f1 = 0.0
-        else:
-            f1 = 2 * (precision * recall) / (precision + recall)
+        precision = TP / (TP + FP) if (TP + FP) > 0 else 0.0
+        recall = TP / (TP + FN) if (TP + FN) > 0 else 0.0
+        f1 = (
+            2 * precision * recall / (precision + recall)
+            if (precision + recall) > 0
+            else 0.0
+        )
 
         return {
-            "Precision": precision,
-            "Recall": recall,
-            "F1-Score": f1,
-            "Total TP": TP_total,
-            "Total FP": FP_total,
-            "Total FN": FN_total,
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "f1": round(f1, 4),
+            "tp": TP,
+            "fp": FP,
+            "fn": FN,
+            "support": len(true_set),
         }
+
+    available_tests = set(predictions.keys()) & set(ground_truth.keys())
+    if test_name and test_name not in available_tests:
+        raise ValueError(
+            f"Test '{test_name}' not found in both prediction and ground truth"
+        )
+
+    tests_to_evaluate = [test_name] if test_name else list(available_tests)
+
+    all_results = {}
+    overall_metrics = defaultdict(lambda: {"tp": 0, "fp": 0, "fn": 0, "support": 0})
+
+    for test in tests_to_evaluate:
+        pred_flat = flatten_entities(predictions, test)
+        truth_flat = flatten_entities(ground_truth, test)
+        all_categories = set(pred_flat.keys()) | set(truth_flat.keys())
+
+        test_results = {}
+        for category in sorted(all_categories):
+            metrics = calculate_category_metrics(
+                pred_flat.get(category, []), truth_flat.get(category, [])
+            )
+            test_results[category] = metrics
+            for key in ["tp", "fp", "fn"]:
+                overall_metrics[category][key] += metrics[key]
+            overall_metrics[category]["support"] += metrics["support"]
+
+        all_results[test] = test_results
+
+    # Calculate overall metrics
+    overall_results = {}
+    for category, counts in overall_metrics.items():
+        tp, fp, fn = counts["tp"], counts["fp"], counts["fn"]
+        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        f1 = (
+            2 * precision * recall / (precision + recall)
+            if (precision + recall) > 0
+            else 0.0
+        )
+
+        overall_results[category] = {
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "f1": round(f1, 4),
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "support": counts["support"],
+        }
+
+    # Calculate micro and macro averages
+    micro_tp = sum(m["tp"] for m in overall_results.values())
+    micro_fp = sum(m["fp"] for m in overall_results.values())
+    micro_fn = sum(m["fn"] for m in overall_results.values())
+
+    micro_precision = (
+        micro_tp / (micro_tp + micro_fp) if (micro_tp + micro_fp) > 0 else 0.0
+    )
+    micro_recall = (
+        micro_tp / (micro_tp + micro_fn) if (micro_tp + micro_fn) > 0 else 0.0
+    )
+    micro_f1 = (
+        2 * micro_precision * micro_recall / (micro_precision + micro_recall)
+        if (micro_precision + micro_recall) > 0
+        else 0.0
+    )
+
+    return {
+        "per_test": all_results,
+        "overall_per_category": overall_results,
+        "summary": {
+            "micro": {
+                "precision": round(micro_precision, 4),
+                "recall": round(micro_recall, 4),
+                "f1": round(micro_f1, 4),
+            },
+            "macro": {
+                "precision": round(
+                    np.mean([m["precision"] for m in overall_results.values()]), 4
+                ),
+                "recall": round(
+                    np.mean([m["recall"] for m in overall_results.values()]), 4
+                ),
+                "f1": round(np.mean([m["f1"] for m in overall_results.values()]), 4),
+            },
+            "total_tests": len(tests_to_evaluate),
+            "total_categories": len(overall_results),
+        },
+    }
+
+
+def print_metrics_report(metrics: Dict[str, Any]):
+    """Print a formatted report of the metrics"""
+
+    print("=" * 80)
+    print("PII EXTRACTION EVALUATION REPORT")
+    print("=" * 80)
+
+    # Summary metrics
+    summary = metrics["summary"]
+    print(f"\nOVERALL SUMMARY (Micro/Macro Averages):")
+    print(f"Tests Evaluated: {summary['total_tests']}")
+    print(f"Categories Found: {summary['total_categories']}")
+    print(f"Micro Precision: {summary['micro']['precision']:.4f}")
+    print(f"Micro Recall:    {summary['micro']['recall']:.4f}")
+    print(f"Micro F1-Score:  {summary['micro']['f1']:.4f}")
+    print(f"Macro Precision: {summary['macro']['precision']:.4f}")
+    print(f"Macro Recall:    {summary['macro']['recall']:.4f}")
+    print(f"Macro F1-Score:  {summary['macro']['f1']:.4f}")
+
+    # Per-category metrics
+    print(f"\nPER-CATEGORY METRICS:")
+    print("-" * 80)
+    print(
+        f"{'Category':<20} {'Precision':<10} {'Recall':<10} {'F1-Score':<10} {'Support':<10} {'TP/FP/FN':<15}"
+    )
+    print("-" * 80)
+
+    for category, cat_metrics in metrics["overall_per_category"].items():
+        tp_fp_fn = f"{cat_metrics['tp']}/{cat_metrics['fp']}/{cat_metrics['fn']}"
+        print(
+            f"{category:<20} {cat_metrics['precision']:<10.4f} {cat_metrics['recall']:<10.4f} "
+            f"{cat_metrics['f1']:<10.4f} {cat_metrics['support']:<10} {tp_fp_fn:<15}"
+        )
+
+    # Per-test metrics (if multiple tests)
+    if len(metrics["per_test"]) > 1:
+        print(f"\nPER-TEST BREAKDOWN:")
+        print("-" * 80)
+        for test_name, test_metrics in metrics["per_test"].items():
+            test_f1 = np.mean([m["f1"] for m in test_metrics.values()])
+            total_entities = sum(m["support"] for m in test_metrics.values())
+            print(
+                f"{test_name}: Average F1 = {test_f1:.4f}, Total Entities = {total_entities}"
+            )

@@ -145,3 +145,8 @@ Extraction Requirements:
 - If a category has no matches, return an empty list.
 - Do not alter, normalize, or correct the extracted text; return it exactly as it appears.
 """
+
+def get_prompt(index):
+    prompt_list = [prompt_v1,prompt_v2,prompt_v3,prompt_v4,prompt_v5]
+   
+    return prompt_list[index]
