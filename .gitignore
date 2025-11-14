@@ -2,3 +2,4 @@
 evaluation_data
 .env
 penv
+*/__pycache__
