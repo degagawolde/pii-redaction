@@ -3,11 +3,7 @@ from typing import List
 
 
 class PIIExtractionOutput(BaseModel):
-    """
-    Defines the Pydantic schema for the PII and Entity Extraction output.
-    All fields are lists of strings corresponding to the extracted entities.
-    """
-
+  
     Name: List[str] = Field(
         default_factory=list,
         description="Full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali).",

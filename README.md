@@ -1,5 +1,4 @@
-
-# **PII Redaction for Legal Documents – Project Documentation**
+# **PII Redaction for Legal Documents** 
 
 ## **Overview**
 
@@ -9,9 +8,7 @@ Historically, PII detection relied heavily on traditional **Named Entity Recogni
 
 ## **Data Description**
 
-The project utilized four specific test legal documents:  **Test_A** ,  **Test_C** ,  **Test_D** , and  **Test_F** . These documents were sourced from an Excel file, loaded, and subjected to a preprocessing stage for initial data cleaning.
-
-Crucially, each document was accompanied by a  **target label** —a curated list of all true PII instances within that document. This ground truth was essential for accurately comparing and measuring the performance of the various prompt engineering strategies.
+The project utilized four specific test legal documents:  **Test_A** ,  **Test_C** ,  **Test_D** , and  **Test_F** . These documents were sourced from an Excel file, loaded, and subjected to a preprocessing stage for initial data cleaning. Crucially, each document was accompanied by a  **target label** —a curated list of all true PII instances within that document. This ground truth was essential for accurately comparing and measuring the performance of the various prompt engineering strategies.
 
 ## **Prompt Engineering Approach**
 
@@ -39,4 +36,10 @@ Model outputs were compared against ground-truth PII labels using standard infor
 * **Recall** – proportion of ground-truth PII successfully identified
 * **F1 Score** – harmonic mean of precision and recall, representing overall detection quality
 
-These metrics allow for consistent comparison across different prompt strategies and highlight trade-offs between over-redaction and missed PII. The evaluation results guide which prompt patterns yield the best balance for legal-domain use cases.
+## How to run
+
+```
+#1 create python environment: python3 -m venv penv and then sourcepenv/bin/activate
+#2 install all requried packages: pip install -r requirements.txt
+#3 run the pipeline: python main.py
+```

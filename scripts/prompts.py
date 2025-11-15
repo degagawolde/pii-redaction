@@ -137,7 +137,50 @@ Extraction Requirements:
 - Do not alter, normalize, or correct the extracted text; return it exactly as it appears.
 """
 
+prompt_v6 = """
+You are a high-precision PII Extraction Engine for legal and compliance documents.
+
+Your mission:
+Detect, classify, and locate all Personally Identifiable Information (PII) in the input text
+with character-accurate spans.
+
+PII Categories (12):
+1. Name
+2. Company_Name
+3. Address
+4. PPS_Number
+5. License_Number
+6. Phone_Number
+7. Email_Address
+8. Passport_Number
+9. Bank_Information
+10. Reference_Number
+11. ID_Number
+12. Date_of_Birth
+
+Extraction Requirements:
+- Extract **all exact text spans**, including embedded, repeated, partial, or nested PII.
+- Do not normalize, modify, correct, or infer any text. Use the raw text exactly as it appears.
+- Each detected PII item must include:
+    • "value": exact string  
+    • "type": one of the 12 categories  
+    • "start": character start index  
+    • "end": character end index (exclusive)
+- If a category has no matches, return an empty list.
+- The output must contain **all 12 keys**.
+- The output must be **ONLY** a single JSON object.
+- No explanations, no reasoning, no commentary, no preamble.
+
+STRICT RULES:
+- Do not miss any possible match.
+- Do not invent or correct PII.
+- Do not output anything except the JSON object.
+- Indices must be exact and correspond to the original input text.
+
+Return only the final JSON.
+"""
+
 def get_prompt(index):
-    prompt_list = [prompt_v1,prompt_v2,prompt_v3,prompt_v4,prompt_v5]
+    prompt_list = [prompt_v1,prompt_v2,prompt_v3,prompt_v4,prompt_v5, prompt_v6]
    
     return prompt_list[index]
