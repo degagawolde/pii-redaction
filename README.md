@@ -48,7 +48,7 @@ pip install -r requirements.txt
 #3 run the pipeline
 python main.py
 #4 redact a given document with a selected prompt
-python redaction.py --prompt prompts.json --document Test_C --input data.json --output results
+python redaction.py --prompt results/predictions_prompt_2.json --document Test_A --input data/documents.xlsx
 ```
 
 ```
