@@ -43,7 +43,7 @@
             "P6159287",
             "P8472639"
         ],
-        "Bank_Informarion": [
+        "Bank_Information": [
             "Account Number: IE64 BOFI 9073 2847 6391 52"
         ],
         "Reference_Number": [
@@ -142,9 +142,6 @@
         "Passport_Number": [
             "P6159287",
             "P8472639"
-        ],
-        "Bank_Information": [
-            "Account Number: IE64 BOFI 9073 2847 6391 52"
         ],
         "Reference_Number": [
             "Sort Code: 90-73-28",

@@ -40,10 +40,9 @@ PII Categories to identify:
 
 Do not generate any conversational text, explanations, or analysis. For each entity, 
 return the exact text, the assigned type, the character start index, and the character 
-end index (exclusive). Do not miss partial matches or embedded entities.
-Output must be a single JSON object. The keys must be the PII categories, 
-and the value must be a list of all detected instances. 
-If a category is not found, its list should be empty.
+end index (exclusive). Do not miss partial matches or embedded entities. Output must be 
+a single JSON object. The keys must be the PII categories,  and the value must be a list 
+of all detected instances. If a category is not found, its list should be empty.
 """
 
 prompt_v3 = """
@@ -51,7 +50,7 @@ You are an expert PII identification and entity extraction tool for legal docume
 Analyze the provided text and identify ALL instances of the 12 PII/Entity Categories listed below.
 
 ### PII/Entity Categories to Extract
-1.  **Name**: Full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali).
+1.  **Name**: Human names inlcuding full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali).
 2.  **Company_Name**: Organization names (e.g., The Right Brothers, Bank of Ireland).
 3.  **Address**: Full or partial street addresses, city, state, postal codes, and country (e.g., 15 Grafton Street, Dublin 2, Ireland).
 4.  **Date_of_Birth**: Dates specifying birth (e.g., 23 August 1987).
@@ -76,19 +75,19 @@ ROLE: Precision PII Extraction Engine for Legal Documents
 
 MISSION: Exhaustively identify and locate all Personally Identifiable Information with character-level accuracy.
 
-PII TAXONOMY (12 categories):
-- Name: "John Smith", "Dr. O'Malley", "Mr. Johnson"
-- Company_Name: "Google LLC", "Bank of Ireland" 
-- Date_of_Birth: "15/03/1985", "March 15, 1985", "23 August 1987"
-- Address: "123 Main St, Dublin 2", "Unit 7, Industrial Estate"
-- Email_Address: "user@company.ie", "admin@domain.com"
-- Phone_Number: "+353-1-485-2739", "+352 43 03 1"
-- PPS_Number: "8472639T", "6159287K"
-- License_Number: "AML-IE-8472639", "CA-IE-6159287"
-- Passport_Number: "P6159287", "P8472639"
-- Bank_Information: "IE64 BOFI 9073 2847 6391 52", "Sort Code: 90-73-28"
-- Reference_Number: "LU-2014-REF-08947", "C-247/25", "ECLI:EU:C:2025:542"
-- ID_Number: "19870823-1234-567", "19910315-2345-678"
+PII/Entity Categories to Extract
+1.  **Name**: Human names inlcuding full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali,  John Smith, Dr. O'Malley, Mr. Johnson).
+2.  **Company_Name**: Organization names (e.g., The Right Brothers, Bank of Ireland).
+3.  **Address**: Full or partial street addresses, city, state, postal codes, and country (e.g., 15 Grafton Street, Dublin 2, Ireland).
+4.  **Date_of_Birth**: Dates specifying birth (e.g., 23 August 1987).
+5.  **Email_Address**: Standard email formats.
+6.  **Phone_Number**: Complete phone or fax numbers.
+7.  **PPS_Number**: Irish Personal Public Service numbers (e.g., 8472639T).
+8.  **License_Number**: Driver's licenses, professional licenses, VAT/Tax numbers (e.g., AML-IE-8472639, IE8472639T).
+9.  **Passport_Number**: Passport document numbers (e.g., P8472639).
+10. **Bank_Information**: Account numbers, IBANs, and Sort Codes (e.g., IE64 BOFI..., 90-73-28).
+11. **ID_Number**: National/other ID numbers (e.g., 19870823-1234-567).
+12. **Reference_Number**: Any unique legal, tax, employer, or case reference number (e.g., RC-RB-2025-847263, C-247/25).
 
 EXTRACTION PROTOCOL:
 1. SCAN: Examine every character sequence
@@ -114,18 +113,18 @@ input text.
 
 You must identify the following PII categories:
 
-1. Name
-2. Company_Name
-3. Address
-4. PPS_Number
-5. License_Number
-6. Phone_Number
-7. Email_Address
-8. Passport_Number
-9. Bank_Information
-10. Reference_Number
-11. ID_Number
-12. Date_of_Birth
+- Name: "John Smith", "Dr. O'Malley", "Mr. Johnson"
+- Company_Name: "Google LLC", "Bank of Ireland" 
+- Date_of_Birth: "15/03/1985", "March 15, 1985", "23 August 1987"
+- Address: "123 Main St, Dublin 2", "Unit 7, Industrial Estate"
+- Email_Address: "user@company.ie", "admin@domain.com"
+- Phone_Number: "+353-1-485-2739", "+352 43 03 1"
+- PPS_Number: "8472639T", "6159287K"
+- License_Number: "AML-IE-8472639", "CA-IE-6159287"
+- Passport_Number: "P6159287", "P8472639"
+- Bank_Information: "IE64 BOFI 9073 2847 6391 52", "Sort Code: 90-73-28"
+- Reference_Number: "LU-2014-REF-08947", "C-247/25", "ECLI:EU:C:2025:542"
+- ID_Number: "19870823-1234-567", "19910315-2345-678"
 
 Extraction Requirements:
 - Return **all exact text spans**, including partial names, nested entities, or embedded values.
@@ -145,18 +144,18 @@ Detect, classify, and locate all Personally Identifiable Information (PII) in th
 with character-accurate spans.
 
 PII Categories (12):
-1. Name
-2. Company_Name
-3. Address
-4. PPS_Number
-5. License_Number
-6. Phone_Number
-7. Email_Address
-8. Passport_Number
-9. Bank_Information
-10. Reference_Number
-11. ID_Number
-12. Date_of_Birth
+- Name: "John Smith", "Dr. O'Malley", "Mr. Johnson"
+- Company_Name: "Google LLC", "Bank of Ireland" 
+- Date_of_Birth: "15/03/1985", "March 15, 1985", "23 August 1987"
+- Address: "123 Main St, Dublin 2", "Unit 7, Industrial Estate"
+- Email_Address: "user@company.ie", "admin@domain.com"
+- Phone_Number: "+353-1-485-2739", "+352 43 03 1"
+- PPS_Number: "8472639T", "6159287K"
+- License_Number: "AML-IE-8472639", "CA-IE-6159287"
+- Passport_Number: "P6159287", "P8472639"
+- Bank_Information: "IE64 BOFI 9073 2847 6391 52", "Sort Code: 90-73-28"
+- Reference_Number: "LU-2014-REF-08947", "C-247/25", "ECLI:EU:C:2025:542"
+- ID_Number: "19870823-1234-567", "19910315-2345-678"
 
 Extraction Requirements:
 - Extract **all exact text spans**, including embedded, repeated, partial, or nested PII.

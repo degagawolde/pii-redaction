@@ -3,10 +3,15 @@
         "Name": [
             "Orval O'Riocht",
             "Liam O'Riocht",
+            "Orval O'Riocht",
+            "Liam O'Riocht",
+            "Orval O'Riocht",
+            "Liam O'Riocht",
             "Michael Murphy",
             "Sean O'Malley"
         ],
         "Company_Name": [
+            "The Right Brothers",
             "The Right Brothers",
             "Bank of Ireland",
             "Chartered Institute of Arbitrators"
@@ -36,7 +41,6 @@
             "6159287K"
         ],
         "License_Number": [
-            "P8472639",
             "IE8472639T",
             "8472639",
             "AML-IE-8472639",
@@ -44,6 +48,7 @@
             "CA-IE-6159287"
         ],
         "Passport_Number": [
+            "P8472639",
             "P6159287"
         ],
         "Bank_Information": [
@@ -69,20 +74,22 @@
             "Ms. Fawziya Shingali",
             "Taalo",
             "Mr. Shingali",
-            "His Royal Highness Henri",
+            "His Royal Highness Henri, Grand Duke of Luxembourg",
+            "Mr. Shingali",
+            "Mr. Miran Shingali",
+            "Gianmarco Rossi",
+            "Agatha Johansson",
+            "Jakub Dzukowicz",
             "A. Calot Escobar"
         ],
         "Company_Name": [
-            "THE COURT OF JUSTICE OF THE EUROPEAN UNION",
             "Government of Luxembourg",
             "Palace of the Grand Dukes",
-            "Luxembourg government",
-            "Grand Duke's office",
             "Registry of the Court of Justice"
         ],
         "Address": [
-            "Hauptstraße 45, 54290 Trier, Germany",
             "Sinjar, Iraq",
+            "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
             "17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
             "Rue du Fort Niedergrünewald, L-2925 Luxembourg"
@@ -127,6 +134,8 @@
             "Sean O'Malley"
         ],
         "Company_Name": [
+            "The Right Brothers",
+            "The Right Brothers",
             "The Right Brothers"
         ],
         "Address": [
@@ -171,27 +180,35 @@
     "Test_F": {
         "Name": [
             "Miran Shingali",
+            "Judge Gianmarco Rossi",
             "Gianmarco Rossi",
+            "Judge Agatha Johansson",
             "Agatha Johansson",
+            "Judge Jakub Dzukowicz",
             "Jakub Dzukowicz",
+            "Ms. Elena Sharpova",
             "Elena Sharpova",
             "Mr. Miran Shingali",
-            "Ms. Fawziya Shingali",
-            "Henri, Grand Duke of Luxembourg",
+            "Ms. Fawziya Shingali (née Taalo)",
+            "Fawziya Shingali",
+            "Taalo",
             "Mr. Shingali",
+            "His Royal Highness Henri",
+            "Henri",
+            "Grand Duke of Luxembourg",
             "A. Calot Escobar",
-            "Gianmarco Rossi",
-            "Agatha Johansson",
-            "Jakub Dzukowicz"
+            "Calot Escobar"
         ],
         "Company_Name": [
-            "COURT OF JUSTICE OF THE EUROPEAN UNION",
+            "THE COURT OF JUSTICE OF THE EUROPEAN UNION",
             "Grand Duke of Luxembourg",
             "Government of Luxembourg",
-            "Palace of the Grand Dukes",
+            "Luxembourg government",
+            "Grand Duke's office",
             "Registry of the Court of Justice"
         ],
         "Address": [
+            "Sinjar, Iraq",
             "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
             "Palace of the Grand Dukes, 17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",

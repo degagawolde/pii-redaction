@@ -1,6 +1,6 @@
 {
-    "prompt_id": 3,
-    "prompt_content": "\nROLE: Precision PII Extraction Engine for Legal Documents\n\nMISSION: Exhaustively identify and locate all Personally Identifiable Information with character-level accuracy.\n\nPII/Entity Categories to Extract\n1.  **Name**: Human names inlcuding full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali,  John Smith, Dr. O'Malley, Mr. Johnson).\n2.  **Company_Name**: Organization names (e.g., The Right Brothers, Bank of Ireland).\n3.  **Address**: Full or partial street addresses, city, state, postal codes, and country (e.g., 15 Grafton Street, Dublin 2, Ireland).\n4.  **Date_of_Birth**: Dates specifying birth (e.g., 23 August 1987).\n5.  **Email_Address**: Standard email formats.\n6.  **Phone_Number**: Complete phone or fax numbers.\n7.  **PPS_Number**: Irish Personal Public Service numbers (e.g., 8472639T).\n8.  **License_Number**: Driver's licenses, professional licenses, VAT/Tax numbers (e.g., AML-IE-8472639, IE8472639T).\n9.  **Passport_Number**: Passport document numbers (e.g., P8472639).\n10. **Bank_Information**: Account numbers, IBANs, and Sort Codes (e.g., IE64 BOFI..., 90-73-28).\n11. **ID_Number**: National/other ID numbers (e.g., 19870823-1234-567).\n12. **Reference_Number**: Any unique legal, tax, employer, or case reference number (e.g., RC-RB-2025-847263, C-247/25).\n\nEXTRACTION PROTOCOL:\n1. SCAN: Examine every character sequence\n2. CLASSIFY: Assign to exact PII category\n3. LOCATE: Record precise start/end indices\n4. CAPTURE: Preserve exact casing and formatting\n5. REPORT: Structured JSON output\n\nZERO TOLERANCE:\n- No missed entities\n- No approximate positions  \n- No category misassignment\n- No text normalization\n- No explanatory text\n\nSTRICT COMPLIANCE: Return ONLY valid JSON. No preamble. No commentary.",
+    "prompt_id": 1,
+    "prompt_content": "\nYou are an expert PII identification tool for legal documents. Your task is to analyze \nthe provided text and extract all instances of Personally Identifiable Information (PII). \n\nPII Categories to identify:\n1. Name\n2. Company_Name\n3. Address\n4. PPS_Number\n5. License_Number\n6. Phone_Number\n7. Email_Address\n8. Passport_Number\n9. Bank_Information\n10. Reference_Number\n11. ID_Number\n12. Date_of_Birth\n\nDo not generate any conversational text, explanations, or analysis. For each entity, \nreturn the exact text, the assigned type, the character start index, and the character \nend index (exclusive). Do not miss partial matches or embedded entities. Output must be \na single JSON object. The keys must be the PII categories,  and the value must be a list \nof all detected instances. If a category is not found, its list should be empty.\n",
     "metrics": {
         "per_test": {
             "Test_A": {
@@ -59,11 +59,11 @@
                     "support": 0
                 },
                 "License_Number": {
-                    "precision": 0.6667,
+                    "precision": 0.8,
                     "recall": 1.0,
-                    "f1": 0.8,
+                    "f1": 0.8889,
                     "tp": 4,
-                    "fp": 2,
+                    "fp": 1,
                     "fn": 0,
                     "support": 4
                 },
@@ -87,11 +87,11 @@
                 },
                 "Passport_Number": {
                     "precision": 1.0,
-                    "recall": 0.5,
-                    "f1": 0.6667,
-                    "tp": 1,
+                    "recall": 1.0,
+                    "f1": 1.0,
+                    "tp": 2,
                     "fp": 0,
-                    "fn": 1,
+                    "fn": 0,
                     "support": 2
                 },
                 "Phone_Number": {
@@ -137,7 +137,7 @@
                     "recall": 0.0,
                     "f1": 0.0,
                     "tp": 0,
-                    "fp": 6,
+                    "fp": 3,
                     "fn": 0,
                     "support": 0
                 },
@@ -225,12 +225,12 @@
             },
             "Test_F": {
                 "Address": {
-                    "precision": 0.75,
-                    "recall": 0.6,
-                    "f1": 0.6667,
-                    "tp": 3,
+                    "precision": 0.8,
+                    "recall": 0.8,
+                    "f1": 0.8,
+                    "tp": 4,
                     "fp": 1,
-                    "fn": 2,
+                    "fn": 1,
                     "support": 5
                 },
                 "Bank_Information": {
@@ -247,7 +247,7 @@
                     "recall": 0.0,
                     "f1": 0.0,
                     "tp": 0,
-                    "fp": 5,
+                    "fp": 6,
                     "fn": 0,
                     "support": 0
                 },
@@ -288,12 +288,12 @@
                     "support": 0
                 },
                 "Name": {
-                    "precision": 0.6,
-                    "recall": 0.6667,
-                    "f1": 0.6316,
-                    "tp": 6,
-                    "fp": 4,
-                    "fn": 3,
+                    "precision": 0.4737,
+                    "recall": 1.0,
+                    "f1": 0.6429,
+                    "tp": 9,
+                    "fp": 10,
+                    "fn": 0,
                     "support": 9
                 },
                 "PPS_Number": {
@@ -446,12 +446,12 @@
         },
         "overall_per_category": {
             "Address": {
-                "precision": 0.9474,
-                "recall": 0.9,
-                "f1": 0.9231,
-                "tp": 18,
+                "precision": 0.95,
+                "recall": 0.95,
+                "f1": 0.95,
+                "tp": 19,
                 "fp": 1,
-                "fn": 2,
+                "fn": 1,
                 "support": 20
             },
             "Bank_Information": {
@@ -464,11 +464,11 @@
                 "support": 1
             },
             "Company_Name": {
-                "precision": 0.2,
+                "precision": 0.2308,
                 "recall": 0.75,
-                "f1": 0.3158,
+                "f1": 0.3529,
                 "tp": 3,
-                "fp": 12,
+                "fp": 10,
                 "fn": 1,
                 "support": 4
             },
@@ -500,21 +500,21 @@
                 "support": 4
             },
             "License_Number": {
-                "precision": 0.4444,
+                "precision": 0.5,
                 "recall": 0.6667,
-                "f1": 0.5333,
+                "f1": 0.5714,
                 "tp": 4,
-                "fp": 5,
+                "fp": 4,
                 "fn": 2,
                 "support": 6
             },
             "Name": {
-                "precision": 0.7,
-                "recall": 0.7778,
-                "f1": 0.7368,
-                "tp": 21,
-                "fp": 9,
-                "fn": 6,
+                "precision": 0.6154,
+                "recall": 0.8889,
+                "f1": 0.7273,
+                "tp": 24,
+                "fp": 15,
+                "fn": 3,
                 "support": 27
             },
             "PPS_Number": {
@@ -528,11 +528,11 @@
             },
             "Passport_Number": {
                 "precision": 1.0,
-                "recall": 0.75,
-                "f1": 0.8571,
-                "tp": 3,
+                "recall": 1.0,
+                "f1": 1.0,
+                "tp": 4,
                 "fp": 0,
-                "fn": 1,
+                "fn": 0,
                 "support": 4
             },
             "Phone_Number": {
@@ -556,14 +556,14 @@
         },
         "summary": {
             "micro": {
-                "precision": 0.7836,
-                "recall": 0.8468,
-                "f1": 0.814
+                "precision": 0.7746,
+                "recall": 0.8871,
+                "f1": 0.8271
             },
             "macro": {
-                "precision": 0.7743,
-                "recall": 0.8037,
-                "f1": 0.7712
+                "precision": 0.7747,
+                "recall": 0.838,
+                "f1": 0.7909
             },
             "total_tests": 4,
             "total_categories": 12
@@ -572,5 +572,5 @@
     "total_documents": 4,
     "successful_documents": 4,
     "failed_documents": 0,
-    "evaluation_timestamp": "2025-11-15T20:20:10.459264"
+    "evaluation_timestamp": "2025-11-15T20:18:42.678268"
 }

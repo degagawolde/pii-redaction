@@ -16,7 +16,8 @@
             "42 Merrion Square, Dublin 2, Ireland",
             "Unit 7, Dublin Industrial Estate, Glasnevin, Dublin 11, Ireland",
             "28 Fitzwilliam Square, Dublin 2, Ireland",
-            "17 Stephen's Green, Dublin 2, Ireland"
+            "17 Stephen's Green, Dublin 2, Ireland",
+            "Dublin, Ireland"
         ],
         "Date_of_Birth": [],
         "Email_Address": [
@@ -36,7 +37,6 @@
             "6159287K"
         ],
         "License_Number": [
-            "P8472639",
             "IE8472639T",
             "8472639",
             "AML-IE-8472639",
@@ -44,6 +44,7 @@
             "CA-IE-6159287"
         ],
         "Passport_Number": [
+            "P8472639",
             "P6159287"
         ],
         "Bank_Information": [
@@ -60,31 +61,29 @@
     "Test_C": {
         "Name": [
             "Miran Shingali",
-            "Grand Duke of Luxembourg",
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
-            "Ms. Elena Sharpova",
-            "Mr. Miran Shingali",
-            "Ms. Fawziya Shingali",
-            "Taalo",
-            "Mr. Shingali",
-            "His Royal Highness Henri",
+            "Elena Sharpova",
+            "Miran Shingali",
+            "Fawziya Shingali (née Taalo)",
+            "Henri, Grand Duke of Luxembourg",
+            "Miran Shingali",
+            "Gianmarco Rossi",
+            "Agatha Johansson",
+            "Jakub Dzukowicz",
             "A. Calot Escobar"
         ],
         "Company_Name": [
-            "THE COURT OF JUSTICE OF THE EUROPEAN UNION",
             "Government of Luxembourg",
-            "Palace of the Grand Dukes",
             "Luxembourg government",
             "Grand Duke's office",
             "Registry of the Court of Justice"
         ],
         "Address": [
             "Hauptstraße 45, 54290 Trier, Germany",
-            "Sinjar, Iraq",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
-            "17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
+            "Palace of the Grand Dukes, 17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
             "Rue du Fort Niedergrünewald, L-2925 Luxembourg"
         ],
         "Date_of_Birth": [
@@ -171,27 +170,27 @@
     "Test_F": {
         "Name": [
             "Miran Shingali",
+            "Grand Duke of Luxembourg",
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
-            "Elena Sharpova",
+            "Ms. Elena Sharpova",
             "Mr. Miran Shingali",
             "Ms. Fawziya Shingali",
-            "Henri, Grand Duke of Luxembourg",
-            "Mr. Shingali",
-            "A. Calot Escobar",
-            "Gianmarco Rossi",
-            "Agatha Johansson",
-            "Jakub Dzukowicz"
+            "Fawziya Shingali (née Taalo)",
+            "His Royal Highness Henri, Grand Duke of Luxembourg",
+            "A. Calot Escobar"
         ],
         "Company_Name": [
-            "COURT OF JUSTICE OF THE EUROPEAN UNION",
-            "Grand Duke of Luxembourg",
             "Government of Luxembourg",
             "Palace of the Grand Dukes",
-            "Registry of the Court of Justice"
+            "Luxembourg government",
+            "Grand Duke's office",
+            "Registry of the Court of Justice",
+            "COURT OF JUSTICE OF THE EUROPEAN UNION"
         ],
         "Address": [
+            "Sinjar, Iraq",
             "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
             "Palace of the Grand Dukes, 17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",

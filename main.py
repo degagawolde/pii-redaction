@@ -350,7 +350,7 @@ def main():
     # Configuration
     INPUT_FILE_PATH = "data/documents.xlsx"
     GROUND_TRUTH_FILE = "data/parsed_data.json"
-    PROMPT_IDS = [2, 3]  # Adjust based on available prompts
+    PROMPT_IDS = [0]  # Adjust based on available prompts
 
     try:
         # Initialize evaluation runner
