@@ -1,10 +1,23 @@
-# **PII Redaction for Legal Documents** 
+# PII Redaction for Legal Documents
+
+[Documentation read more...](PII_Redaction.pdf)
 
 ## **Overview**
 
-This project focuses on automating **Personally Identifiable Information (PII) redaction** within legal documents using  **Large Language Models (LLMs)** . PII redaction is an essential step in safeguarding sensitive information and ensuring organizations remain compliant with major privacy regulations such as  **GDPR** ,  **CCPA** , and industry-specific confidentiality requirements. Legal documents often contain names, addresses, identification numbers, financial details, and other sensitive entities that must be masked before external sharing or archival.
+This project builds an automated PII redaction system for legal documents using LLMs, with a core focus on how prompt engineering directly impacts extraction accuracy. Traditional NER models often miss context-dependent PII, but LLMs can perform significantly better when guided by strict, well-structured prompts. The goal is to evaluate the effect of different prompt designs on precision, recall, and reliability, particularly using the Gemini free-tier model, where strong prompt constraints are crucial due to model limitations.
+How to 
 
-Historically, PII detection relied heavily on traditional **Named Entity Recognition (NER)** models. While effective to some degree, these systems often struggle with context-dependent PII or domain-specific terminology found in legal contracts. With the advancement of modern LLMs, redaction tasks can now be handled more accurately—provided the prompts are properly engineered and the process is systematically structured. This project explores how different prompt designs impact detection accuracy, performance, and reliability.
+## **How to Run**
+
+```
+#1 create python environment 
+python3 -m venv penv 
+source penv/bin/activate
+#2 install all required packages
+pip install -r requirements.txt
+#3 run the pipeline
+python main.py
+```
 
 ## **Data Description**
 
@@ -12,17 +25,12 @@ The project utilized four specific test legal documents:  **Test_A** ,  **Test_C
 
 ## **Prompt Engineering Approach**
 
-The project evaluates how prompt structure affects PII detection accuracy. The exploration began with  **simple direct prompts** , such as instructing the model to “identify and redact PII,” and gradually evolved toward more sophisticated designs.
+The project follows an iterative prompt-engineering workflow, continuously enhancing structure, specificity, and constraints to improve model behavior. 
 
-Enhancements included:
-
-* Step-by-step task decomposition (“first identify PII, then redact”).
-* Explicit lists of PII categories to track.
-* JSON-structured output requirements for easier evaluation.
-* Few-shot examples demonstrating correct redaction behavior.
-* Error-checking instructions to reduce hallucinations or omissions.
-
-This iterative process clarified how prompt clarity, constraints, and output formatting contribute to improved performance and consistency.
+* More constraints: Tight instructions greatly reduce false positives and random outputs.
+* Structured formats enable objective evaluation: JSON schemas prevent formatting drift and improve metric computation.
+* Examples reduce confusion: Helps models correctly detect rare legal PII (ID types, contract numbers).
+* Role-based instructions increase compliance: “Extraction engine” framing minimizes conversational behavior.
 
 ## **Model**
 
@@ -36,10 +44,12 @@ Model outputs were compared against ground-truth PII labels using standard infor
 * **Recall** – proportion of ground-truth PII successfully identified
 * **F1 Score** – harmonic mean of precision and recall, representing overall detection quality
 
-## How to run
+## conclusion
 
-```
-#1 create python environment: python3 -m venv penv and then sourcepenv/bin/activate
-#2 install all requried packages: pip install -r requirements.txt
-#3 run the pipeline: python main.py
-```
+Prompt engineering, not the model alone, determines PII extraction accuracy. Structured constraints, definitions, and strict schemas turned an unreliable baseline into a high-precision redaction system, even using a free-tier LLM.
+
+## Future Work
+
+* Few-shot prompt variants
+* Self-consistency prompting with a hidden chain-of-thought
+* Prompt ensembles for robustness
