@@ -5,7 +5,32 @@
 ## **Overview**
 
 This project builds an automated PII redaction system for legal documents using LLMs, with a core focus on how prompt engineering directly impacts extraction accuracy. Traditional NER models often miss context-dependent PII, but LLMs can perform significantly better when guided by strict, well-structured prompts. The goal is to evaluate the effect of different prompt designs on precision, recall, and reliability, particularly using the Gemini free-tier model, where strong prompt constraints are crucial due to model limitations.
-How to 
+
+## **Project Structure**
+
+### **1. `scripts/` Directory**
+
+* **`evaluation.py`** – Evaluates the performance of each prompt version.
+* **`preprocess.py`** – Utility functions for text cleaning and preprocessing.
+* **`prompts.py`** – Contains all versions of the PII extraction and redaction prompts.
+* **`read_file.py`** – Parses input documents and label files into the correct internal format.
+* **`schema.py`** – Defines the schema used to validate and guide model outputs.
+* **`validator.py`** – Validates the model output against the defined schema.
+
+---
+
+### **2. `main.py`**
+
+Runs the entire pipeline end-to-end, including preprocessing, inference, and evaluation.
+
+### **3. `evaluation_result/`**
+
+* Stores all evaluation outputs.
+* Saves extracted PII results in JSON format.
+
+### **4. `evaluation_data/`**
+
+Contains the input documents and their corresponding target (ground-truth) PII annotations.
 
 ## **How to Run**
 
@@ -19,7 +44,12 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## **Data Description**
+```
+# make sure you have GEMINI_API_KEY in your .env file
+GEMINI_API_KEY=<AIzaSyCktOc........>
+```
+
+## Data Description
 
 The project utilized four specific test legal documents:  **Test_A** ,  **Test_C** ,  **Test_D** , and  **Test_F** . These documents were sourced from an Excel file, loaded, and subjected to a preprocessing stage for initial data cleaning. Crucially, each document was accompanied by a  **target label** —a curated list of all true PII instances within that document. This ground truth was essential for accurately comparing and measuring the performance of the various prompt engineering strategies.
 
