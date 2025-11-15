@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Dict, List, Tuple
 
 # Type alias for clarity
@@ -7,6 +8,9 @@ PII_DATA = Dict[str, Dict[str, List[str]]]
 from typing import Dict, List, Any, Set
 from collections import defaultdict
 import numpy as np
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 
 def calculate_pii_metrics(
@@ -179,44 +183,44 @@ def calculate_pii_metrics(
 def print_metrics_report(metrics: Dict[str, Any]):
     """Print a formatted report of the metrics"""
 
-    print("=" * 80)
-    print("PII EXTRACTION EVALUATION REPORT")
-    print("=" * 80)
+    logger.info("=" * 80)
+    logger.info("PII EXTRACTION EVALUATION REPORT")
+    logger.info("=" * 80)
 
     # Summary metrics
     summary = metrics["summary"]
-    print(f"\nOVERALL SUMMARY (Micro/Macro Averages):")
-    print(f"Tests Evaluated: {summary['total_tests']}")
-    print(f"Categories Found: {summary['total_categories']}")
-    print(f"Micro Precision: {summary['micro']['precision']:.4f}")
-    print(f"Micro Recall:    {summary['micro']['recall']:.4f}")
-    print(f"Micro F1-Score:  {summary['micro']['f1']:.4f}")
-    print(f"Macro Precision: {summary['macro']['precision']:.4f}")
-    print(f"Macro Recall:    {summary['macro']['recall']:.4f}")
-    print(f"Macro F1-Score:  {summary['macro']['f1']:.4f}")
+    logger.info(f"\nOVERALL SUMMARY (Micro/Macro Averages):")
+    logger.info(f"Tests Evaluated: {summary['total_tests']}")
+    logger.info(f"Categories Found: {summary['total_categories']}")
+    logger.info(f"Micro Precision: {summary['micro']['precision']:.4f}")
+    logger.info(f"Micro Recall:    {summary['micro']['recall']:.4f}")
+    logger.info(f"Micro F1-Score:  {summary['micro']['f1']:.4f}")
+    logger.info(f"Macro Precision: {summary['macro']['precision']:.4f}")
+    logger.info(f"Macro Recall:    {summary['macro']['recall']:.4f}")
+    logger.info(f"Macro F1-Score:  {summary['macro']['f1']:.4f}")
 
     # Per-category metrics
-    print(f"\nPER-CATEGORY METRICS:")
-    print("-" * 80)
-    print(
+    logger.info(f"\nPER-CATEGORY METRICS:")
+    logger.info("-" * 80)
+    logger.info(
         f"{'Category':<20} {'Precision':<10} {'Recall':<10} {'F1-Score':<10} {'Support':<10} {'TP/FP/FN':<15}"
     )
-    print("-" * 80)
+    logger.info("-" * 80)
 
     for category, cat_metrics in metrics["overall_per_category"].items():
         tp_fp_fn = f"{cat_metrics['tp']}/{cat_metrics['fp']}/{cat_metrics['fn']}"
-        print(
+        logger.info(
             f"{category:<20} {cat_metrics['precision']:<10.4f} {cat_metrics['recall']:<10.4f} "
             f"{cat_metrics['f1']:<10.4f} {cat_metrics['support']:<10} {tp_fp_fn:<15}"
         )
 
     # Per-test metrics (if multiple tests)
     if len(metrics["per_test"]) > 1:
-        print(f"\nPER-TEST BREAKDOWN:")
-        print("-" * 80)
+        logger.info(f"\nPER-TEST BREAKDOWN:")
+        logger.info("-" * 80)
         for test_name, test_metrics in metrics["per_test"].items():
             test_f1 = np.mean([m["f1"] for m in test_metrics.values()])
             total_entities = sum(m["support"] for m in test_metrics.values())
-            print(
+            logger.info(
                 f"{test_name}: Average F1 = {test_f1:.4f}, Total Entities = {total_entities}"
             )

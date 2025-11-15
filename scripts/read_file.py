@@ -2,22 +2,26 @@ import pandas as pd
 import re
 from collections import defaultdict
 import json
+import logging
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 def read_input_document(file_path):
     try:
         # Read the file into a DataFrame
         df = pd.read_excel(file_path, names=["name", "content"], header=None)
-        print("✅ Successfully connected to and read the CSV file.")
-        print("\n--- First 5 Rows ---")
-        print(df.head())
-        print("\n--- Data Structure ---")
-        print(df.info())
+        logger.info("✅ Successfully connected to and read the CSV file.")
+        logger.info("\n--- First 5 Rows ---")
+        logger.info(f"\n{df.head()}")
+        logger.info("\n--- Data Structure ---")
+        logger.info(f"\n{df.info()}")
         return df
     except FileNotFoundError:
-        print(f"❌ Error: The file at '{file_path}' was not found.")
+        logger.error(f"❌ Error: The file at '{file_path}' was not found.")
         return None
     except pd.errors.EmptyDataError:
-        print("❌ Error: The file is empty.")
+        logger.error("❌ Error: The file is empty.")
         return None
 
 

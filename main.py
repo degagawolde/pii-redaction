@@ -5,6 +5,7 @@ and calculates performance metrics for comparison.
 """
 
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional
@@ -19,6 +20,14 @@ from scripts.validator import validate_output
 from scripts.schema import PIIExtractionOutput
 from scripts.prompts import get_prompt
 from scripts.preprocess import clean_document_for_llm
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 
 class PIIEvaluationRunner:
@@ -71,7 +80,7 @@ class PIIEvaluationRunner:
             return validated_data
 
         except Exception as e:
-            print(
+            logger.error(
                 f"❌ Error processing document '{document_name}' with prompt {prompt_id}: {e}"
             )
             return {"error": str(e), "status": "error"}
@@ -89,9 +98,9 @@ class PIIEvaluationRunner:
         Returns:
             Dictionary containing evaluation results or None if failed
         """
-        print(f"\n{'='*60}")
-        print(f"🔄 Processing with Prompt ID: {prompt_id}")
-        print(f"{'='*60}")
+        logger.info(f"\n{'='*60}")
+        logger.info(f"🔄 Processing with Prompt ID: {prompt_id}")
+        logger.info(f"{'='*60}")
 
         predictions = {}
         prompt_content = get_prompt(prompt_id)
@@ -101,7 +110,7 @@ class PIIEvaluationRunner:
             document_name = documents_df["name"].iloc[i]
             document_text = documents_df["content"].iloc[i]
 
-            print(
+            logger.info(
                 f"✅ Prompt {prompt_id} - Document {i+1}/{documents_df.shape[0]} - {document_name}"
             )
 
@@ -139,7 +148,7 @@ class PIIEvaluationRunner:
                 try:
                     cleaned[key] = json.loads(value)
                 except json.JSONDecodeError:
-                    print(
+                    logger.warning(
                         f"⚠️ Failed to decode JSON for key: {key}. Keeping original string."
                     )
                     cleaned[key] = value
@@ -151,11 +160,11 @@ class PIIEvaluationRunner:
         try:
             with open(output_file, "w", encoding="utf-8") as f:
                 json.dump(cleaned, f, indent=4, ensure_ascii=False)
-            print(f"✅ Successfully saved predictions for prompt {prompt_id}")
+            logger.info(f"✅ Successfully saved predictions for prompt {prompt_id}")
             return True
 
         except Exception as e:
-            print(f"❌ Error saving predictions for prompt {prompt_id}: {e}")
+            logger.error(f"❌ Error saving predictions for prompt {prompt_id}: {e}")
             return False
 
     def _calculate_and_save_metrics(
@@ -177,11 +186,32 @@ class PIIEvaluationRunner:
             Dictionary containing metrics and results
         """
         try:
-            # Filter out successful predictions for metric calculation
-            successful_predictions = {
-                doc_name: result
-                for doc_name, result in predictions.items()
-            }
+            # Clean and filter predictions: parse JSON strings and filter out errors
+            successful_predictions = {}
+            
+            for doc_name, result in predictions.items():
+                # Skip error cases
+                if result is None or (isinstance(result, dict) and result.get("status") == "error"):
+                    logger.warning(f"⚠️ Skipping document '{doc_name}' due to error status")
+                    continue
+                
+                # Parse JSON strings to dictionaries
+                if isinstance(result, str):
+                    try:
+                        parsed_result = json.loads(result)
+                        successful_predictions[doc_name] = parsed_result
+                    except json.JSONDecodeError:
+                        logger.warning(f"⚠️ Failed to parse JSON for document '{doc_name}'. Skipping.")
+                        continue
+                elif isinstance(result, dict):
+                    successful_predictions[doc_name] = result
+                else:
+                    logger.warning(f"⚠️ Unexpected result type for document '{doc_name}': {type(result)}. Skipping.")
+                    continue
+
+            if not successful_predictions:
+                logger.error(f"❌ No valid predictions found for prompt {prompt_id}")
+                return None
 
             metrics = calculate_pii_metrics(
                 predictions=successful_predictions, ground_truth=ground_truth
@@ -203,11 +233,11 @@ class PIIEvaluationRunner:
             with open(metrics_file, "w", encoding="utf-8") as f:
                 json.dump(metrics_data, f, indent=4, ensure_ascii=False)
 
-            print(f"✅ Successfully saved metrics for prompt {prompt_id}")
+            logger.info(f"✅ Successfully saved metrics for prompt {prompt_id}")
 
             # Print report
-            print(f"\n📊 METRICS REPORT - Prompt {prompt_id}")
-            print(f"{'-'*40}")
+            logger.info(f"\n📊 METRICS REPORT - Prompt {prompt_id}")
+            logger.info(f"{'-'*40}")
             print_metrics_report(metrics)
 
             return {
@@ -218,7 +248,7 @@ class PIIEvaluationRunner:
             }
 
         except Exception as e:
-            print(f"❌ Error calculating metrics for prompt {prompt_id}: {e}")
+            logger.error(f"❌ Error calculating metrics for prompt {prompt_id}: {e}")
             return None
 
     def save_comprehensive_comparison(
@@ -264,11 +294,11 @@ class PIIEvaluationRunner:
             with open(comparison_file, "w", encoding="utf-8") as f:
                 json.dump(comparison_data, f, indent=4, ensure_ascii=False)
 
-            print(f"✅ Successfully saved comprehensive comparison")
+            logger.info(f"✅ Successfully saved comprehensive comparison")
             return True
 
         except Exception as e:
-            print(f"❌ Error saving comparison file: {e}")
+            logger.error(f"❌ Error saving comparison file: {e}")
             return False
 
     def print_final_summary(
@@ -280,18 +310,18 @@ class PIIEvaluationRunner:
             prompt_ids: List of prompt IDs that were tested
             all_results: Dictionary containing results for all prompts
         """
-        print(f"\n{'='*60}")
-        print(f"🎯 EVALUATION COMPLETED")
-        print(f"{'='*60}")
-        print(f"Total prompts tested: {len(prompt_ids)}")
-        print(f"Successful evaluations: {len(all_results)}")
-        print(f"Results saved in: {self.results_dir}/")
-        print(f"Files generated:")
+        logger.info(f"\n{'='*60}")
+        logger.info(f"🎯 EVALUATION COMPLETED")
+        logger.info(f"{'='*60}")
+        logger.info(f"Total prompts tested: {len(prompt_ids)}")
+        logger.info(f"Successful evaluations: {len(all_results)}")
+        logger.info(f"Results saved in: {self.results_dir}/")
+        logger.info(f"Files generated:")
         for prompt_id in prompt_ids:
-            print(f"  - predictions_prompt_{prompt_id}.json")
-            print(f"  - metrics_prompt_{prompt_id}.json")
-        print(f"  - all_prompts_comparison.json")
-        print(f"{'='*60}")
+            logger.info(f"  - predictions_prompt_{prompt_id}.json")
+            logger.info(f"  - metrics_prompt_{prompt_id}.json")
+        logger.info(f"  - all_prompts_comparison.json")
+        logger.info(f"{'='*60}")
 
 
 def load_ground_truth(ground_truth_path: str) -> Dict[str, Any]:
@@ -327,10 +357,10 @@ def main():
         evaluator = PIIEvaluationRunner()
 
         # Load data
-        print("📂 Loading input documents...")
+        logger.info("📂 Loading input documents...")
         raw_text_df = read_input_document(file_path=INPUT_FILE_PATH)
 
-        print("📂 Loading ground truth data...")
+        logger.info("📂 Loading ground truth data...")
         ground_truth = load_ground_truth(GROUND_TRUTH_FILE)
 
         # Run evaluation for each prompt
@@ -354,7 +384,7 @@ def main():
         evaluator.print_final_summary(prompt_ids=PROMPT_IDS, all_results=all_results)
 
     except Exception as e:
-        print(f"💥 Critical error in main execution: {e}")
+        logger.critical(f"💥 Critical error in main execution: {e}")
         raise
 
 
