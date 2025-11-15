@@ -27,13 +27,13 @@ Runs the entire pipeline end-to-end, including preprocessing, inference, and eva
 
 Select a prompt and an input document, then run this script to generate a redacted version of the document.
 
-### **4. `evaluation_result/`**
+### **4. `results/`**
 
 * Stores all evaluation outputs.
 * Saves extracted PII results in JSON format.
 * Store redacted documents for each prompt
 
-### **5. `evaluation_data/`**
+### **5. `data/`**
 
 Contains the input documents and their corresponding target (ground-truth) PII annotations.
 
@@ -48,9 +48,8 @@ pip install -r requirements.txt
 #3 run the pipeline
 python main.py
 #4 redact a given document with a selected prompt
-python redaction.py prompt_v2 Test_C
+python redaction.py --prompt prompts.json --document Test_C --input data.json --output results
 ```
-
 
 ```
 # make sure you have GEMINI_API_KEY in your .env file
@@ -63,7 +62,7 @@ The project utilized four specific test legal documents:  **Test_A** ,  **Test_C
 
 ## **Prompt Engineering Approach**
 
-The project follows an iterative prompt-engineering workflow, continuously enhancing structure, specificity, and constraints to improve model behavior. 
+The project follows an iterative prompt-engineering workflow, continuously enhancing structure, specificity, and constraints to improve model behavior.
 
 * More constraints: Tight instructions greatly reduce false positives and random outputs.
 * Structured formats enable objective evaluation: JSON schemas prevent formatting drift and improve metric computation.

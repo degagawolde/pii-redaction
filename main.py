@@ -33,7 +33,7 @@ class PIIEvaluationRunner:
         load_dotenv()
         self.client = genai.Client()
         self.model_name = model_name
-        self.results_dir = Path("evaluation_results")
+        self.results_dir = Path("results")
         self.results_dir.mkdir(exist_ok=True)
 
     def detect_pii(
@@ -318,8 +318,8 @@ def load_ground_truth(ground_truth_path: str) -> Dict[str, Any]:
 def main():
     """Main execution function."""
     # Configuration
-    INPUT_FILE_PATH = "evaluation_data/documents.xlsx"
-    GROUND_TRUTH_FILE = "evaluation_data/parsed_data.json"
+    INPUT_FILE_PATH = "data/documents.xlsx"
+    GROUND_TRUTH_FILE = "data/parsed_data.json"
     PROMPT_IDS = [2, 3]  # Adjust based on available prompts
 
     try:
