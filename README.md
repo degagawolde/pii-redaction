@@ -23,7 +23,7 @@ This project builds an automated PII redaction system for legal documents using 
 
 Runs the entire pipeline end-to-end, including preprocessing, inference, and evaluation.
 
-### 3.` redaction.py`
+### 3.`redaction.py`
 
 Select a prompt and an input document, then run this script to generate a redacted version of the document.
 
