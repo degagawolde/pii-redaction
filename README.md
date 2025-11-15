@@ -23,12 +23,17 @@ This project builds an automated PII redaction system for legal documents using 
 
 Runs the entire pipeline end-to-end, including preprocessing, inference, and evaluation.
 
-### **3. `evaluation_result/`**
+### 3.` redaction.py`
+
+Select a prompt and an input document, then run this script to generate a redacted version of the document.
+
+### **4. `evaluation_result/`**
 
 * Stores all evaluation outputs.
 * Saves extracted PII results in JSON format.
+* Store redacted documents for each prompt
 
-### **4. `evaluation_data/`**
+### **5. `evaluation_data/`**
 
 Contains the input documents and their corresponding target (ground-truth) PII annotations.
 
@@ -42,7 +47,10 @@ source penv/bin/activate
 pip install -r requirements.txt
 #3 run the pipeline
 python main.py
+#4 redact a given document with a selected prompt
+python redaction.py prompt_v2 Test_C
 ```
+
 
 ```
 # make sure you have GEMINI_API_KEY in your .env file
