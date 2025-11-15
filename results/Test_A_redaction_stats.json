@@ -1,0 +1,15 @@
+{
+  "document_name": "Test_A",
+  "statistics": {
+    "<Address_REDACTED>": 5,
+    "<Company_Name_REDACTED>": 4,
+    "<Email_Address_REDACTED>": 3,
+    "<Bank_Information_REDACTED>": 2,
+    "<Phone_Number_REDACTED>": 3,
+    "<Name_REDACTED>": 10,
+    "<License_Number_REDACTED>": 7,
+    "<PPS_Number_REDACTED>": 4,
+    "<Passport_Number_REDACTED>": 2
+  },
+  "total_redactions": 40
+}
