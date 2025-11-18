@@ -9,15 +9,14 @@
         "Company_Name": [
             "The Right Brothers",
             "Bank of Ireland",
-            "Chartered Institute of Arbitrators"
+            "Chartered Institute of Arbitrators, Irish Branch"
         ],
         "Address": [
             "15 Grafton Street, Dublin 2, Ireland",
             "42 Merrion Square, Dublin 2, Ireland",
             "Unit 7, Dublin Industrial Estate, Glasnevin, Dublin 11, Ireland",
             "28 Fitzwilliam Square, Dublin 2, Ireland",
-            "17 Stephen's Green, Dublin 2, Ireland",
-            "Dublin, Ireland"
+            "17 Stephen's Green, Dublin 2, Ireland"
         ],
         "Date_of_Birth": [],
         "Email_Address": [
@@ -64,20 +63,15 @@
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
-            "Elena Sharpova",
-            "Miran Shingali",
-            "Fawziya Shingali (née Taalo)",
-            "Henri, Grand Duke of Luxembourg",
-            "Miran Shingali",
-            "Gianmarco Rossi",
-            "Agatha Johansson",
-            "Jakub Dzukowicz",
+            "Ms. Elena Sharpova",
+            "Ms. Fawziya Shingali (née Taalo)",
+            "His Royal Highness Henri",
             "A. Calot Escobar"
         ],
         "Company_Name": [
+            "Court of Justice of the European Union",
+            "Grand Duke of Luxembourg and Government of Luxembourg",
             "Government of Luxembourg",
-            "Luxembourg government",
-            "Grand Duke's office",
             "Registry of the Court of Justice"
         ],
         "Address": [
@@ -104,7 +98,8 @@
         "Bank_Information": [],
         "ID_Number": [
             "19870823-1234-567",
-            "19910315-2345-678"
+            "19910315-2345-678",
+            "IRQ-2013-MC-78945"
         ],
         "Reference_Number": [
             "C-247/25",
@@ -112,10 +107,10 @@
             "2025/C-247",
             "LU-2014-REF-08947",
             "MS-2025-REV-001",
-            "IRQ-2013-MC-78945",
             "MFA-2025-0398",
             "GD-2025-0156",
-            "CC-2025-0089"
+            "CC-2025-0089",
+            "Directive 2011/95/EU"
         ]
     },
     "Test_D": {
@@ -170,30 +165,25 @@
     "Test_F": {
         "Name": [
             "Miran Shingali",
-            "Grand Duke of Luxembourg",
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
-            "Ms. Elena Sharpova",
-            "Mr. Miran Shingali",
-            "Ms. Fawziya Shingali",
-            "Fawziya Shingali (née Taalo)",
-            "His Royal Highness Henri, Grand Duke of Luxembourg",
+            "Elena Sharpova",
+            "Fawziya Shingali",
+            "Henri",
             "A. Calot Escobar"
         ],
         "Company_Name": [
+            "Court of Justice of the European Union",
+            "Grand Duke of Luxembourg",
             "Government of Luxembourg",
             "Palace of the Grand Dukes",
-            "Luxembourg government",
-            "Grand Duke's office",
-            "Registry of the Court of Justice",
-            "COURT OF JUSTICE OF THE EUROPEAN UNION"
+            "Registry of the Court of Justice"
         ],
         "Address": [
-            "Sinjar, Iraq",
             "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
-            "Palace of the Grand Dukes, 17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
+            "17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
             "Rue du Fort Niedergrünewald, L-2925 Luxembourg"
         ],
         "Date_of_Birth": [
@@ -218,7 +208,7 @@
         ],
         "Reference_Number": [
             "C-247/25",
-            "ECLI:EU:C:2025:542",
+            "EU:C:2025:542",
             "2025/C-247",
             "LU-2014-REF-08947",
             "MS-2025-REV-001",

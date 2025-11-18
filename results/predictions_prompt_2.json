@@ -60,27 +60,25 @@
         "Name": [
             "Miran Shingali",
             "Grand Duke of Luxembourg",
-            "Judge Gianmarco Rossi",
-            "President of the Chamber",
-            "Judge Agatha Johansson",
-            "Judge-Rapporteur",
-            "Judge Jakub Dzukowicz",
-            "Ms. Elena Sharpova",
-            "Advocate General",
+            "Gianmarco Rossi",
+            "Agatha Johansson",
+            "Jakub Dzukowicz",
+            "Elena Sharpova",
             "Mr. Miran Shingali",
             "Ms. Fawziya Shingali",
-            "Taalo",
+            "Fawziya Shingali (née Taalo)",
             "His Royal Highness Henri",
             "Henri",
-            "President",
-            "A. Calot Escobar",
-            "Registrar"
+            "A. Calot Escobar"
         ],
         "Company_Name": [
-            "Court of Justice of the European Union",
+            "COURT OF JUSTICE OF THE EUROPEAN UNION",
             "Government of Luxembourg",
+            "Palace of the Grand Dukes",
             "Luxembourg government",
             "Grand Duke's office",
+            "THE COURT",
+            "Third Chamber",
             "Registry of the Court of Justice"
         ],
         "Address": [
@@ -88,7 +86,8 @@
             "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
             "Palace of the Grand Dukes, 17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
-            "Rue du Fort Niedergrünewald, L-2925 Luxembourg"
+            "Rue du Fort Niedergrünewald, L-2925 Luxembourg",
+            "Luxembourg"
         ],
         "Date_of_Birth": [
             "23 August 1987",
@@ -119,7 +118,8 @@
             "IRQ-2013-MC-78945",
             "MFA-2025-0398",
             "GD-2025-0156",
-            "CC-2025-0089"
+            "CC-2025-0089",
+            "2011/95/EU"
         ]
     },
     "Test_D": {
@@ -174,37 +174,28 @@
     "Test_F": {
         "Name": [
             "Miran Shingali",
-            "Mr. Shingali",
+            "Grand Duke of Luxembourg",
             "Gianmarco Rossi",
-            "President of the Chamber",
             "Agatha Johansson",
-            "Judge-Rapporteur",
             "Jakub Dzukowicz",
             "Ms. Elena Sharpova",
-            "Elena Sharpova",
+            "Mr. Miran Shingali",
             "Ms. Fawziya Shingali",
             "Fawziya Shingali",
-            "Taalo",
-            "His Royal Highness Henri",
             "Henri",
+            "His Royal Highness Henri, Grand Duke of Luxembourg",
             "A. Calot Escobar",
-            "Registrar: A. Calot Escobar",
-            "President"
+            "Fawziya Shingali (née Taalo)"
         ],
         "Company_Name": [
             "COURT OF JUSTICE OF THE EUROPEAN UNION",
-            "Grand Duke of Luxembourg",
             "Government of Luxembourg",
             "Palace of the Grand Dukes",
-            "Luxembourg government",
-            "Grand Duke's office",
             "Registry of the Court of Justice"
         ],
         "Address": [
-            "Sinjar, Iraq",
             "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
-            "Palace of the Grand Dukes, 17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
             "17 Rue du Marché-aux-Herbes, L-1728 Luxembourg City",
             "Luxembourg",
             "Rue du Fort Niedergrünewald, L-2925 Luxembourg"
@@ -227,7 +218,8 @@
         "Bank_Information": [],
         "ID_Number": [
             "19870823-1234-567",
-            "19910315-2345-678"
+            "19910315-2345-678",
+            "IRQ-2013-MC-78945"
         ],
         "Reference_Number": [
             "C-247/25",
@@ -235,7 +227,6 @@
             "2025/C-247",
             "LU-2014-REF-08947",
             "MS-2025-REV-001",
-            "IRQ-2013-MC-78945",
             "MFA-2025-0398",
             "GD-2025-0156",
             "CC-2025-0089"

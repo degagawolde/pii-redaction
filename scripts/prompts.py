@@ -49,21 +49,21 @@ prompt_v3 = """
 You are an expert PII identification and entity extraction tool for legal documents.
 Analyze the provided text and identify ALL instances of the 12 PII/Entity Categories listed below.
 
-### PII/Entity Categories to Extract
-1.  **Name**: Human names inlcuding full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali).
-2.  **Company_Name**: Organization names (e.g., The Right Brothers, Bank of Ireland).
-3.  **Address**: Full or partial street addresses, city, state, postal codes, and country (e.g., 15 Grafton Street, Dublin 2, Ireland).
-4.  **Date_of_Birth**: Dates specifying birth (e.g., 23 August 1987).
-5.  **Email_Address**: Standard email formats.
-6.  **Phone_Number**: Complete phone or fax numbers.
-7.  **PPS_Number**: Irish Personal Public Service numbers (e.g., 8472639T).
-8.  **License_Number**: Driver's licenses, professional licenses, VAT/Tax numbers (e.g., AML-IE-8472639, IE8472639T).
-9.  **Passport_Number**: Passport document numbers (e.g., P8472639).
-10. **Bank_Information**: Account numbers, IBANs, and Sort Codes (e.g., IE64 BOFI..., 90-73-28).
-11. **ID_Number**: National/other ID numbers (e.g., 19870823-1234-567).
-12. **Reference_Number**: Any unique legal, tax, employer, or case reference number (e.g., RC-RB-2025-847263, C-247/25).
+PII/Entity Categories to Extract
+1.  Name: Human names inlcuding full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali).
+2.  Company_Name Organization names (e.g., The Right Brothers, Bank of Ireland).
+3.  Address Full or partial street addresses, city, state, postal codes, and country (e.g., 15 Grafton Street, Dublin 2, Ireland).
+4.  Date_of_Birth Dates specifying birth (e.g., 23 August 1987).
+5.  Email_Address Standard email formats.
+6.  Phone_Number Complete phone or fax numbers.
+7.  PPS_Number: Irish Personal Public Service numbers (e.g., 8472639T).
+8.  License_Number: Driver's licenses, professional licenses, VAT/Tax numbers (e.g., AML-IE-8472639, IE8472639T).
+9.  Passport_Number: Passport document numbers (e.g., P8472639).
+10. Bank_Information: Account numbers, IBANs, and Sort Codes (e.g., IE64 BOFI..., 90-73-28).
+11. ID_Number: National/other ID numbers (e.g., 19870823-1234-567).
+12. Reference_Number: Any unique legal, tax, employer, or case reference number (e.g., RC-RB-2025-847263, C-247/25).
 
-### Output Constraints
+Output Constraints
 -   Output MUST be a single JSON object.
 -   Do not include any conversational text, explanations, or analysis.
 -   Ensure all instances, including embedded and partial matches, are captured.
@@ -76,18 +76,18 @@ ROLE: Precision PII Extraction Engine for Legal Documents
 MISSION: Exhaustively identify and locate all Personally Identifiable Information with character-level accuracy.
 
 PII/Entity Categories to Extract
-1.  **Name**: Human names inlcuding full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali,  John Smith, Dr. O'Malley, Mr. Johnson).
-2.  **Company_Name**: Organization names (e.g., The Right Brothers, Bank of Ireland).
-3.  **Address**: Full or partial street addresses, city, state, postal codes, and country (e.g., 15 Grafton Street, Dublin 2, Ireland).
-4.  **Date_of_Birth**: Dates specifying birth (e.g., 23 August 1987).
-5.  **Email_Address**: Standard email formats.
-6.  **Phone_Number**: Complete phone or fax numbers.
-7.  **PPS_Number**: Irish Personal Public Service numbers (e.g., 8472639T).
-8.  **License_Number**: Driver's licenses, professional licenses, VAT/Tax numbers (e.g., AML-IE-8472639, IE8472639T).
-9.  **Passport_Number**: Passport document numbers (e.g., P8472639).
-10. **Bank_Information**: Account numbers, IBANs, and Sort Codes (e.g., IE64 BOFI..., 90-73-28).
-11. **ID_Number**: National/other ID numbers (e.g., 19870823-1234-567).
-12. **Reference_Number**: Any unique legal, tax, employer, or case reference number (e.g., RC-RB-2025-847263, C-247/25).
+1.  Name: Human names inlcuding full names, partial names, or titles (e.g., Orval O'Riocht, Mr. Shingali,  John Smith, Dr. O'Malley, Mr. Johnson).
+2.  Company_Name Organization names (e.g., The Right Brothers, Bank of Ireland).
+3.  Address: Full or partial street addresses, city, state, postal codes, and country (e.g., 15 Grafton Street, Dublin 2, Ireland).
+4.  Date_of_Birth: Dates specifying birth (e.g., 23 August 1987).
+5.  Email_Address: Standard email formats.
+6.  Phone_Number: Complete phone or fax numbers.
+7.  PPS_Number: Irish Personal Public Service numbers (e.g., 8472639T).
+8.  License_Number: Driver's licenses, professional licenses, VAT/Tax numbers (e.g., AML-IE-8472639, IE8472639T).
+9.  Passport_Number: Passport document numbers (e.g., P8472639).
+10. Bank_Information: Account numbers, IBANs, and Sort Codes (e.g., IE64 BOFI..., 90-73-28).
+11. ID_Number: National/other ID numbers (e.g., 19870823-1234-567).
+12. Reference_Number: Any unique legal, tax, employer, or case reference number (e.g., RC-RB-2025-847263, C-247/25).
 
 EXTRACTION PROTOCOL:
 1. SCAN: Examine every character sequence
@@ -127,10 +127,10 @@ You must identify the following PII categories:
 - ID_Number: "19870823-1234-567", "19910315-2345-678"
 
 Extraction Requirements:
-- Return **all exact text spans**, including partial names, nested entities, or embedded values.
-- Provide the **character start index** and **character end index (exclusive)** for each detected PII.
-- Output must contain **only** the final JSON object. No explanations or conversational text.
-- The JSON must contain **all 12 keys**. Each key's value must be a list of items. 
+- Return all exact text spans, including partial names, nested entities, or embedded values.
+- Provide the character start index and character end index (exclusive) for each detected PII.
+- Output must contain only the final JSON object. No explanations or conversational text.
+- The JSON must contain all 12 keys. Each key's value must be a list of items. 
 - Each detected item must be an object with fields: `value`, `type`, `start`, `end`.
 - If a category has no matches, return an empty list.
 - Do not alter, normalize, or correct the extracted text; return it exactly as it appears.
@@ -158,7 +158,7 @@ PII Categories (12):
 - ID_Number: "19870823-1234-567", "19910315-2345-678"
 
 Extraction Requirements:
-- Extract **all exact text spans**, including embedded, repeated, partial, or nested PII.
+- Extract all exact text spans, including embedded, repeated, partial, or nested PII.
 - Do not normalize, modify, correct, or infer any text. Use the raw text exactly as it appears.
 - Each detected PII item must include:
     • "value": exact string  
@@ -166,8 +166,8 @@ Extraction Requirements:
     • "start": character start index  
     • "end": character end index (exclusive)
 - If a category has no matches, return an empty list.
-- The output must contain **all 12 keys**.
-- The output must be **ONLY** a single JSON object.
+- The output must contain all 12 keys.
+- The output must be ONLY a single JSON object.
 - No explanations, no reasoning, no commentary, no preamble.
 
 STRICT RULES:
@@ -179,7 +179,84 @@ STRICT RULES:
 Return only the final JSON.
 """
 
+prompt_v7 = """
+You are a high-precision PII Extraction Engine for legal and compliance documents.
+
+Your task:
+Identify all and only the text spans that are valid instances of the defined PII categories below, with character-accurate start and end indices.
+
+PII CATEGORIES (12) — WITH STRICT DEFINITIONS & EXCLUSIONS
+1. Name
+Personal names only.
+Do NOT include titles, roles, job positions, nobility titles, prefixes, suffixes, or organizational references.
+Extract only the person’s actual name portion.
+Examples: “John Smith”, “O’Malley”, “Henri”.
+
+2. Company_Name
+Registered companies, commercial entities, banks, and corporate bodies.
+Do NOT extract government agencies, ministries, courts, departments, committees, offices, branches, academic institutes, or any non-commercial institutions.
+
+3. Date_of_Birth
+Exact dates referring specifically to birth.
+
+4. Address
+Physical or mailing addresses.
+Include city, region, or district only when clearly part of an address.
+
+5. Email_Address
+Standard email formats.
+
+6. Phone_Number
+Any telephone number format.
+
+7. PPS_Number
+Irish PPS numbers only (seven digits + one or two letters).
+Do NOT classify PPS numbers as license, reference, or ID numbers.
+
+8. License_Number
+Official license identifiers (e.g., business, professional, regulatory).
+Must explicitly indicate a license or certification context OR match known license patterns like “AML-IE-#######”.
+Do NOT classify PPS numbers or general references as licenses.
+
+9. Passport_Number
+Passport identifiers, including those prefixed with “P”.
+
+10. Bank_Information
+Financial identifiers:
+- IBAN
+- Sort Code
+- Account Number
+- BIC/SWIFT
+Keep each item as it appears in text (with labels if present).
+
+11. Reference_Number
+Document or case references (legal, administrative, internal) such as:
+“LU-2014-REF-08947”, “C-247/25”, “ECLI:EU:C:2025:542”.
+Do NOT classify these as licenses, PPS numbers, or company names.
+
+12. ID_Number
+General-purpose identification numbers (non-PPS, non-passport, non-license).
+Examples: formats like “19870823-1234-567”.
+
+EXTRACTION RULES
+- Extract only text spans that exactly match the definitions above.
+- Do NOT infer, guess, normalize, correct, or create information.
+- Use the raw text, exactly as it appears (including spaces, punctuation, capitalization).
+- Return all matches, including duplicates and repeated occurrences.
+- If a category has no matches, return an empty list.
+- The final output MUST contain all 12 categories as keys.
+- The final response MUST be a single JSON object.
+- No commentary, no explanation, no reasoning.
+
+STRICT MODE
+- Do not miss any valid PII.
+- Do not extract anything outside the definitions.
+- Do not mix categories.
+- Do not output anything except the JSON object.
+- Indices must be exact and correspond to the original input string.
+"""
+
 def get_prompt(index):
-    prompt_list = [prompt_v1,prompt_v2,prompt_v3,prompt_v4,prompt_v5, prompt_v6]
+    prompt_list = [prompt_v1,prompt_v2,prompt_v3,prompt_v4,prompt_v5, prompt_v6, prompt_v7]
    
     return prompt_list[index]

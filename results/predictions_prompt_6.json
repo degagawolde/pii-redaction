@@ -2,8 +2,10 @@
     "Test_A": {
         "Name": [
             "Orval O'Riocht",
+            "Liam O'Riocht",
             "Orval O'Riocht",
             "Liam O'Riocht",
+            "Orval O'Riocht",
             "Liam O'Riocht",
             "Orval O'Riocht",
             "Liam O'Riocht",
@@ -64,32 +66,21 @@
     "Test_C": {
         "Name": [
             "Miran Shingali",
-            "Grand Duke of Luxembourg",
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
-            "Ms. Elena Sharpova",
-            "Mr. Miran Shingali",
-            "Ms. Fawziya Shingali",
+            "Elena Sharpova",
+            "Miran Shingali",
+            "Fawziya Shingali",
             "Taalo",
-            "Mr. Shingali",
-            "His Royal Highness Henri",
-            "Grand Duke of Luxembourg",
-            "Mr. Miran Shingali",
+            "Henri",
+            "Miran Shingali",
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
             "A. Calot Escobar"
         ],
-        "Company_Name": [
-            "COURT OF JUSTICE OF THE EUROPEAN UNION",
-            "Government of Luxembourg",
-            "Palace of the Grand Dukes",
-            "Luxembourg government",
-            "Grand Duke's office",
-            "THE COURT",
-            "Registry of the Court of Justice"
-        ],
+        "Company_Name": [],
         "Address": [
             "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
@@ -181,24 +172,20 @@
     "Test_F": {
         "Name": [
             "Miran Shingali",
-            "Grand Duke of Luxembourg",
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
-            "Ms. Elena Sharpova",
+            "Elena Sharpova",
             "Miran Shingali",
             "Fawziya Shingali",
             "Taalo",
-            "Henri, Grand Duke of Luxembourg",
+            "Henri",
             "Gianmarco Rossi",
             "Agatha Johansson",
             "Jakub Dzukowicz",
             "A. Calot Escobar"
         ],
-        "Company_Name": [
-            "Government of Luxembourg",
-            "Registry of the Court of Justice"
-        ],
+        "Company_Name": [],
         "Address": [
             "Hauptstraße 45, 54290 Trier, Germany",
             "12 Rue de la Liberté, L-1930 Luxembourg City",
